@@ -41,10 +41,15 @@
       margin-bottom: 10px;
       cursor: pointer;
       transition: transform 0.3s ease;
-      display: inline-block;
+      /* Flex to align coupon */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
     }
     header h1:hover {
-      transform: scale(1.05) rotate(-2deg);
+      transform: scale(1.05);
       text-shadow: 0 0 10px #fff;
     }
     header p {
@@ -84,7 +89,6 @@
       font-size: 2em;
       margin-bottom: 20px;
       position: relative;
-      /* Flex to align badges */
       display: flex;
       align-items: center;
       justify-content: center;
@@ -190,38 +194,6 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-    }
-    .ai-input-group {
-        display: flex;
-        gap: 10px;
-        margin-top: 15px;
-    }
-    .ai-input {
-        flex: 1;
-        padding: 12px;
-        border: 2px solid #ddd;
-        border-radius: 8px;
-        font-size: 1rem;
-    }
-    .ai-response {
-        margin-top: 15px;
-        padding: 15px;
-        background: #f0f8ff;
-        border-left: 4px solid #007bff;
-        border-radius: 4px;
-        font-style: italic;
-        display: none; /* Hidden by default */
-        animation: fadeIn 0.5s ease;
-        line-height: 1.5;
-    }
-    .loading-pulse {
-        display: inline-block;
-        width: 10px;
-        height: 10px;
-        background-color: #007bff;
-        border-radius: 50%;
-        margin-left: 5px;
-        animation: pulse 1s infinite;
     }
 
     /* Stock Widget Styles */
@@ -361,11 +333,6 @@
       from { transform: translateY(20px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
-    @keyframes pulse {
-        0% { transform: scale(1); opacity: 1; }
-        50% { transform: scale(1.5); opacity: 0.5; }
-        100% { transform: scale(1); opacity: 1; }
-    }
     
     .badge {
         background-color: #f39c12; 
@@ -375,7 +342,6 @@
         font-size: 0.5em;
         vertical-align: middle;
         display: inline-block;
-        /* margin-left removed here since flex container handles gap */
     }
   </style>
 </head>
@@ -465,15 +431,12 @@
                       <!-- Left Ear -->
                       <path d="M30 65 Q 15 5 40 5 Q 55 35 45 65" fill="white" stroke="#333" stroke-width="2"/>
                       <path d="M33 60 Q 25 20 38 20 Q 45 40 40 60" fill="#FFC0CB" />
-                      
-                      <!-- Right Ear (Flopped slightly) -->
+                      <!-- Right Ear -->
                       <path d="M70 65 Q 90 15 60 5 Q 45 35 55 65" fill="white" stroke="#333" stroke-width="2"/>
                       <path d="M67 60 Q 78 25 62 20 Q 55 40 60 60" fill="#FFC0CB" />
-                      
                       <!-- Headband -->
                       <path d="M20 70 Q 50 50 80 70" stroke="white" stroke-width="10" stroke-linecap="round"/>
                       <path d="M20 70 Q 50 50 80 70" stroke="#ddd" stroke-width="2" fill="none" stroke-dasharray="4 2"/>
-                      
                       <!-- Bowtie -->
                       <path d="M35 85 L 50 95 L 65 85 L 50 75 Z" fill="#1a1a1a" />
                       <circle cx="50" cy="85" r="6" fill="#000" />
@@ -494,7 +457,8 @@
     <div class="stream">
       <h3>🔥 Faisuu Special Midnight Live 🛢️</h3>
       <p>Streaming straight from the terrace with a ring light and dreams.</p>
-      <a class="button-link" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">Watch Live →</a>
+      <!-- Added rel="noopener noreferrer" for security on GitHub -->
+      <a class="button-link" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer">Watch Live →</a>
       <p><small>Join over 200K viewers now! 🛢️</small></p>
     </div>
     <div class="stream">
@@ -507,7 +471,7 @@
   <section class="kalikal">
     <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
         🧮 NO. OF KALIKAL: <span id="kalikalCount">20</span> 
-        <!-- Replaced Barrel with Bunny Maid SVG -->
+        <!-- Bunny Maid SVG -->
         <span style="font-size: 1.5em; line-height: 0;">
              <svg width="1em" height="1em" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                   <!-- Left Ear -->
@@ -536,16 +500,7 @@
   <div class="toast-container" id="toastContainer"></div>
 
   <script>
-    // --- Gemini API Logic (Preserved for future use) ---
-    const apiKey = ""; // Runtime provided
-
-    async function callGemini(prompt, outputElementId) {
-       // Logic retained but currently unused by Achievements
-    }
-
     // --- Stock Rate Logic ---
-    
-    // SVG Templates for "Trend Up" and "Trend Down"
     const upSvg = `
         <svg viewBox="0 0 24 24" fill="none" stroke="#28a745">
             <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
@@ -607,22 +562,34 @@
     }
 
     // Initialize Stock Logic
-    updateStockRate(); // Run immediately
-    setInterval(updateStockRate, 60000); // Run every 1 minute (60,000 ms)
+    updateStockRate(); 
+    setInterval(updateStockRate, 60000); // Run every 1 minute
 
 
-    // --- Logic for the 'Kalikal' Counter (Updated for Medium Rate) ---
-    const startTime = new Date("2025-04-16T00:00:00Z");
+    // --- Logic for the 'Kalikal' Counter ---
     const startCount = 20;
     const kalikalSpan = document.getElementById("kalikalCount");
     let currentCount = startCount;
+    let startTime;
+    
+    // Use localStorage to make the count persist for the user
+    try {
+        const stored = localStorage.getItem('palayamStartTime');
+        if (stored) {
+            startTime = new Date(parseInt(stored));
+        } else {
+            startTime = new Date();
+            localStorage.setItem('palayamStartTime', startTime.getTime());
+        }
+    } catch(e) {
+        startTime = new Date(); // Fallback if localStorage blocked
+    }
 
     function updateKalikal() {
       const now = new Date();
-      // Increase roughly every 30 seconds (Medium Rate)
-      // 30000ms = 30s
       const diffMs = Math.abs(now - startTime); 
-      const diffUnits = Math.floor(diffMs / 30000); // One unit every 30s
+      // Medium rate: Increase 1 unit every 30 seconds
+      const diffUnits = Math.floor(diffMs / 30000); 
       const newCount = startCount + diffUnits;
 
       const step = () => {
@@ -638,14 +605,14 @@
     }
     
     updateKalikal();
-    // Update every 30 seconds to match the calculation logic
-    setInterval(updateKalikal, 30000); 
+    setInterval(updateKalikal, 30000); // Check every 30 seconds
 
     // --- Toast Notification Logic ---
     function showToast(message, icon = '🧪') {
       const container = document.getElementById('toastContainer');
       const toast = document.createElement('div');
       toast.className = 'toast';
+      // Safe to use innerHTML here as message/icon inputs are hardcoded in our own functions
       toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
       container.appendChild(toast);
 
@@ -656,21 +623,20 @@
       }, 3000);
     }
     
-    // Updated Coupon Logic
+    // Coupon Logic
     function tearCoupon(e) {
-      e.stopPropagation(); // Prevent header/section click events if any
+      e.stopPropagation(); 
       const el = e.currentTarget;
       
-      if(el.classList.contains('torn')) return; // Already claimed
+      if(el.classList.contains('torn')) return; 
 
       // Animate tear
-      el.style.transform = "rotate(15deg) scale(1.1)"; // Shake slightly
+      el.style.transform = "rotate(15deg) scale(1.1)"; 
       
       setTimeout(() => {
-          // Change content and style
           el.innerHTML = "Student Discounts Unlocked! 🎓";
           el.classList.add('torn');
-          el.style.transform = "rotate(0deg) scale(1)"; // Reset transform but keep scale from class
+          el.style.transform = "rotate(0deg) scale(1)"; 
           
           showToast("Discount unlocked! Show your ID at the junction.", "🎓");
       }, 200);
@@ -706,5 +672,7 @@
       showToast(`Bid placed! You bet ₹500 on '${randomItem}'. Good luck! 🎲`);
     }
   </script>
+</body>
+</html>
 </body>
 </html>
