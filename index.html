@@ -3,12 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Palayam Fun Centre - The next generation of entertainment, shopping, and dining.">
     <title>Palayam | The Fun Centre</title>
+    
+    <!-- TAILWIND CSS (The styling engine) -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- ICONS (Lucide) -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- FONTS -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
+        /* BASE STYLES */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #000;
@@ -21,7 +29,7 @@
             }
         }
 
-        /* Custom Scrollbar */
+        /* CUSTOM SCROLLBAR (Chrome/Safari/Edge) */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -37,7 +45,7 @@
             background: #555;
         }
 
-        /* LIQUID TEXT EFFECT */
+        /* LIQUID TEXT ANIMATION (The "Beyond Imagination" effect) */
         .text-gradient {
             background: linear-gradient(
                 -45deg, 
@@ -46,7 +54,7 @@
             background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: liquid-flow 8s ease-in-out infinite; /* Slowed down for elegance */
+            animation: liquid-flow 8s ease-in-out infinite; 
             transition: background-image 1s ease;
         }
 
@@ -69,7 +77,7 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* FIBRE ANIMATIONS */
+        /* FIBRE CABLE ANIMATIONS */
         @keyframes cable-pulse {
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
@@ -86,7 +94,7 @@
             50% { transform: scale(1.3); box-shadow: 0 0 20px 5px rgba(34, 211, 238, 0.8); }
         }
 
-        /* UI ANIMATIONS */
+        /* SCROLL REVEAL ANIMATION */
         .fade-in-section {
             opacity: 0;
             transform: translateY(40px);
@@ -98,7 +106,7 @@
             transform: none;
         }
 
-        /* Glassmorphism Refined */
+        /* GLASSMORPHISM (The frosted glass look) */
         .glass {
             background: rgba(10, 10, 10, 0.7);
             backdrop-filter: blur(20px);
@@ -106,7 +114,7 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        /* Hero Animation */
+        /* FLOATING SHAPES BACKGROUND */
         .hero-bg {
             background: radial-gradient(circle at 50% 50%, #111 0%, #000 70%);
         }
@@ -121,7 +129,7 @@
             100% { transform: translateY(0px); }
         }
 
-        /* Card Hover Effects */
+        /* INTERACTIVE HOVER STATES */
         .hover-lift {
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -131,32 +139,40 @@
             border-color: rgba(255,255,255,0.2);
         }
 
-        /* Button Glow */
         .btn-glow:hover {
             box-shadow: 0 0 30px -5px rgba(255, 255, 255, 0.3);
         }
 
+        /* UTILITY: Hide Scrollbar but allow scrolling */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="antialiased selection:bg-cyan-500/30">
 
-    <!-- Navigation -->
+    <!-- NAVIGATION BAR -->
     <nav class="fixed w-full z-50 glass transition-all duration-500" id="navbar">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- LOGO -->
             <div class="flex items-center gap-3 cursor-pointer group">
                 <div class="w-9 h-9 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold group-hover:rotate-12 transition-transform duration-500 shadow-lg shadow-blue-900/20">P</div>
                 <span class="text-lg font-bold tracking-tight text-white">Palayam</span>
             </div>
             
+            <!-- DESKTOP MENU -->
             <div class="hidden md:flex gap-8 text-sm font-medium text-gray-400">
-                <a href="#" class="hover:text-white transition-colors duration-300">Experience</a>
+                <!-- 
+                   !!! ATTENTION !!! 
+                   This is a link to a secondary page. 
+                   Ensure you create a file named 'experience.html' in your GitHub folder.
+                -->
+                <a href="experience.html" class="hover:text-white transition-colors duration-300">Experience</a>
                 <a href="#" class="hover:text-white transition-colors duration-300">Shop</a>
                 <a href="#" class="hover:text-white transition-colors duration-300">Dining</a>
                 <a href="#" class="hover:text-white transition-colors duration-300">Events</a>
             </div>
 
+            <!-- ICONS -->
             <div class="flex items-center gap-6">
                 <i data-lucide="search" class="w-5 h-5 text-gray-400 cursor-pointer hover:text-white transition-colors duration-300"></i>
                 <i data-lucide="shopping-bag" class="w-5 h-5 text-gray-400 cursor-pointer hover:text-white transition-colors duration-300"></i>
@@ -165,9 +181,9 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- HERO SECTION -->
     <section class="relative h-screen w-full flex flex-col justify-center items-center text-center px-4 overflow-hidden hero-bg">
-        <!-- Refined Background Blobs -->
+        <!-- Background Blobs -->
         <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[100px] floating pointer-events-none"></div>
         <div class="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[100px] floating pointer-events-none" style="animation-delay: -3s;"></div>
 
@@ -203,7 +219,7 @@
         </div>
     </section>
 
-    <!-- Large Typography / Value Prop Section -->
+    <!-- VALUE PROPOSITION -->
     <section class="py-32 px-6 bg-black border-t border-white/5">
         <div class="max-w-5xl mx-auto">
             <h2 class="text-4xl md:text-6xl font-bold leading-tight fade-in-section text-gray-500">
@@ -213,14 +229,14 @@
         </div>
     </section>
 
-    <!-- The Bento Grid (Categories) -->
+    <!-- BENTO GRID (Categories) -->
     <section class="py-20 px-6 bg-[#050505]">
         <div class="max-w-7xl mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-6 h-auto md:h-[800px]">
                 
-                <!-- Main Feature: Gaming -->
+                <!-- Zone 1: Gaming -->
                 <div class="md:col-span-2 md:row-span-2 relative group overflow-hidden rounded-[2rem] bg-gray-900 border border-white/10 fade-in-section cursor-pointer hover-lift">
-                    <img src="https://images.unsplash.com/photo-1534423861386-85a16f5d13fd?q=80&w=2070&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700" alt="VR Gaming">
+                    <img src="https://images.unsplash.com/photo-1534423861386-85a16f5d13fd?q=80&w=2070&auto=format&fit=crop" onerror="this.style.display='none'" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700" alt="VR Gaming">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
                     <div class="absolute bottom-10 left-10 z-10">
                         <span class="inline-block px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 font-bold text-xs tracking-wider uppercase mb-4 backdrop-blur-md border border-purple-500/20">Zone 01</span>
@@ -229,9 +245,9 @@
                     </div>
                 </div>
 
-                <!-- Feature: Shopping -->
+                <!-- Zone 2: Shopping -->
                 <div class="relative group overflow-hidden rounded-[2rem] bg-gray-900 border border-white/10 fade-in-section cursor-pointer hover-lift">
-                    <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=2070&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700" alt="Fashion">
+                    <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=2070&auto=format&fit=crop" onerror="this.style.display='none'" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700" alt="Fashion">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
                     <div class="absolute bottom-8 left-8">
                         <span class="text-blue-400 font-bold text-xs tracking-wider uppercase mb-2 block">The Market</span>
@@ -239,9 +255,9 @@
                     </div>
                 </div>
 
-                <!-- Feature: Luxury Hotels -->
+                <!-- Zone 3: Hotels -->
                 <div class="relative group overflow-hidden rounded-[2rem] bg-gray-900 border border-white/10 fade-in-section cursor-pointer hover-lift">
-                    <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2070&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700" alt="Luxury Hotel">
+                    <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2070&auto=format&fit=crop" onerror="this.style.display='none'" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700" alt="Luxury Hotel">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
                     <div class="absolute bottom-8 left-8">
                         <span class="text-yellow-400 font-bold text-xs tracking-wider uppercase mb-2 block">Royal Stays</span>
@@ -253,7 +269,7 @@
         </div>
     </section>
 
-    <!-- Product Showcase (Horizontal Scroll) -->
+    <!-- SHOP COLLECTION (Horizontal Scroll) -->
     <section class="py-24 bg-black overflow-hidden border-t border-white/5">
         <div class="max-w-7xl mx-auto px-6 mb-12 flex justify-between items-end fade-in-section">
             <div>
@@ -265,9 +281,7 @@
             </a>
         </div>
 
-        <!-- Scroll Container -->
         <div class="flex overflow-x-auto gap-6 px-6 pb-12 no-scrollbar snap-x snap-mandatory">
-            
             <!-- Product 1 -->
             <div class="min-w-[300px] md:min-w-[400px] snap-center">
                 <div class="hover-lift bg-[#0a0a0a] rounded-[2rem] p-8 h-full flex flex-col justify-between border border-white/10 transition-all duration-300 group">
@@ -276,7 +290,7 @@
                             <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-xs font-bold px-3 py-1 rounded-full">NEW</span>
                             <i data-lucide="heart" class="w-6 h-6 text-gray-600 group-hover:text-red-500 cursor-pointer transition-colors"></i>
                         </div>
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=2070" class="w-full h-56 object-contain mb-8 rounded-lg group-hover:scale-105 transition-transform duration-500" alt="Gaming Pass">
+                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=2070" onerror="this.style.display='none'" class="w-full h-56 object-contain mb-8 rounded-lg group-hover:scale-105 transition-transform duration-500" alt="Gaming Pass">
                     </div>
                     <div>
                         <h3 class="text-2xl font-bold mb-2">Infinite Pass Pro</h3>
@@ -288,16 +302,15 @@
                     </div>
                 </div>
             </div>
-
             <!-- Product 2 -->
-            <div class="min-w-[300px] md:min-w-[400px] snap-center">
+             <div class="min-w-[300px] md:min-w-[400px] snap-center">
                 <div class="hover-lift bg-[#0a0a0a] rounded-[2rem] p-8 h-full flex flex-col justify-between border border-white/10 transition-all duration-300 group">
                     <div>
                         <div class="flex justify-between items-start mb-8">
                             <span class="bg-purple-500/10 text-purple-400 border border-purple-500/20 text-xs font-bold px-3 py-1 rounded-full">LIMITED</span>
                             <i data-lucide="heart" class="w-6 h-6 text-gray-600 group-hover:text-red-500 cursor-pointer transition-colors"></i>
                         </div>
-                        <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&q=80&w=2071" class="w-full h-56 object-cover mb-8 rounded-xl group-hover:scale-105 transition-transform duration-500 shadow-2xl" alt="VR Headset">
+                        <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&q=80&w=2071" onerror="this.style.display='none'" class="w-full h-56 object-cover mb-8 rounded-xl group-hover:scale-105 transition-transform duration-500 shadow-2xl" alt="VR Headset">
                     </div>
                     <div>
                         <h3 class="text-2xl font-bold mb-2">Palayam VR Kit</h3>
@@ -309,7 +322,6 @@
                     </div>
                 </div>
             </div>
-
              <!-- Product 3 -->
              <div class="min-w-[300px] md:min-w-[400px] snap-center">
                 <div class="hover-lift bg-[#0a0a0a] rounded-[2rem] p-8 h-full flex flex-col justify-between border border-white/10 transition-all duration-300 group">
@@ -318,7 +330,7 @@
                             <span class="bg-orange-500/10 text-orange-400 border border-orange-500/20 text-xs font-bold px-3 py-1 rounded-full">HOT</span>
                             <i data-lucide="heart" class="w-6 h-6 text-gray-600 group-hover:text-red-500 cursor-pointer transition-colors"></i>
                         </div>
-                        <img src="https://images.unsplash.com/photo-1550989460-0adf9ea622e2?q=80&w=1974&auto=format&fit=crop" class="w-full h-56 object-cover mb-8 rounded-xl group-hover:scale-105 transition-transform duration-500 shadow-2xl" alt="Food">
+                        <img src="https://images.unsplash.com/photo-1550989460-0adf9ea622e2?q=80&w=1974&auto=format&fit=crop" onerror="this.style.display='none'" class="w-full h-56 object-cover mb-8 rounded-xl group-hover:scale-105 transition-transform duration-500 shadow-2xl" alt="Food">
                     </div>
                     <div>
                         <h3 class="text-2xl font-bold mb-2">Gourmet Taster</h3>
@@ -330,13 +342,12 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 
-    <!-- Palayam Fibre Section -->
+    <!-- PALAYAM FIBRE SECTION (Secondary Site Integration) -->
     <section class="py-32 bg-black relative overflow-hidden border-t border-white/5">
-        <!-- Abstract speed lines background (Curved like the poster) -->
+        <!-- Background Lines -->
         <div class="absolute inset-0 pointer-events-none opacity-20">
              <svg class="w-full h-full" preserveAspectRatio="none">
                 <path d="M-100,0 Q500,300 1200,600" fill="none" stroke="#0ea5e9" stroke-width="1" stroke-opacity="0.3" />
@@ -347,67 +358,46 @@
 
         <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
             
-            <!-- Visual Side (FIBRE CABLE) -->
+            <!-- ANIMATED FIBRE CABLE -->
             <div class="relative fade-in-section order-2 md:order-1 h-[500px] w-full rounded-[2.5rem] overflow-hidden bg-gradient-to-br from-[#020617] to-[#1e3a8a] border border-blue-900/30 flex items-center justify-center shadow-[0_0_80px_-20px_rgba(29,78,216,0.3)] group">
-                 
-                 <!-- Background Glow -->
                  <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent"></div>
 
-                 <!-- THE MAIN CABLE CONTAINER WRAPPER -->
-                 <!-- Rotated to aim from Top-Left to Bottom-Right -->
+                 <!-- CABLE CONTAINER (Rotated top-left to bottom-right) -->
                  <div class="absolute w-[140%] h-[200px] flex items-center transform -rotate-[25deg] -translate-x-10 -translate-y-10">
-                    
-                    <!-- 1. The Cable Body (Entering from Left) -->
+                    <!-- Main Body -->
                     <div class="relative w-[55%] h-[90px] bg-gradient-to-r from-blue-950 via-blue-800 to-blue-700 rounded-r-3xl shadow-[0_20px_50px_rgba(0,0,0,0.6)] z-20 overflow-hidden border-t border-b border-blue-500/20">
-                        
-                        <!-- Internal Data Flow Pulse -->
                         <div class="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent w-[200%] animate-[cable-pulse_2s_linear_infinite] blur-md"></div>
-                        
-                        <!-- Glass Sheath Shine -->
                         <div class="absolute top-[20%] left-0 w-full h-[10px] bg-white/20 blur-md rounded-full"></div>
                     </div>
-
-                    <!-- 2. The Connector/Opening (At the Center) -->
+                    <!-- Connector -->
                     <div class="relative -ml-[25px] w-[50px] h-[90px] bg-gray-900 rounded-[50%] border-[4px] border-blue-400 box-border z-30 shadow-[inset_0_0_20px_rgba(0,0,0,0.8)] flex items-center justify-center">
                          <div class="w-[80%] h-[80%] bg-black rounded-[50%] shadow-[0_0_25px_cyan] opacity-90"></div>
                     </div>
-
-                    <!-- 3. Strands Fanning Out (To the Right) -->
+                    <!-- Fanning Strands -->
                     <div class="relative -ml-[20px] w-[300px] h-[300px] z-10 flex items-center">
-                        
-                        <!-- Strand 1 (Top) -->
                         <div class="absolute left-0 w-[120%] h-[2px] bg-blue-400/20 origin-left transform -rotate-[20deg]">
                             <div class="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-[0_0_15px_cyan] animate-[pulse-tip_2s_infinite]"></div>
                             <div class="absolute top-0 left-0 h-full w-[100px] bg-gradient-to-r from-transparent via-white to-transparent animate-[shoot-light_2s_linear_infinite]"></div>
                         </div>
-
-                         <!-- Strand 2 -->
-                         <div class="absolute left-0 w-[110%] h-[1px] bg-blue-400/20 origin-left transform -rotate-[10deg]">
+                        <div class="absolute left-0 w-[110%] h-[1px] bg-blue-400/20 origin-left transform -rotate-[10deg]">
                             <div class="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full shadow-[0_0_10px_cyan] animate-[pulse-tip_3s_infinite]"></div>
                             <div class="absolute top-0 left-0 h-full w-[80px] bg-gradient-to-r from-transparent via-cyan-300 to-transparent animate-[shoot-light_1.5s_linear_infinite_0.5s]"></div>
                         </div>
-
-                         <!-- Strand 3 (Center - Straight) -->
-                         <div class="absolute left-0 w-[130%] h-[3px] bg-cyan-500/30 origin-left transform rotate-[0deg]">
+                        <div class="absolute left-0 w-[130%] h-[3px] bg-cyan-500/30 origin-left transform rotate-[0deg]">
                             <div class="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full shadow-[0_0_20px_white] animate-[pulse-tip_2.5s_infinite]"></div>
                             <div class="absolute top-0 left-0 h-full w-[120px] bg-gradient-to-r from-transparent via-white to-transparent animate-[shoot-light_2s_linear_infinite_0.8s]"></div>
                         </div>
-
-                        <!-- Strand 4 -->
                         <div class="absolute left-0 w-[110%] h-[1px] bg-blue-400/20 origin-left transform rotate-[12deg]">
                             <div class="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full shadow-[0_0_10px_cyan] animate-[pulse-tip_2.2s_infinite]"></div>
                             <div class="absolute top-0 left-0 h-full w-[70px] bg-gradient-to-r from-transparent via-cyan-300 to-transparent animate-[shoot-light_1.8s_linear_infinite_0.2s]"></div>
                         </div>
-
-                        <!-- Strand 5 (Bottom) -->
-                         <div class="absolute left-0 w-[115%] h-[2px] bg-blue-400/20 origin-left transform rotate-[25deg]">
+                        <div class="absolute left-0 w-[115%] h-[2px] bg-blue-400/20 origin-left transform rotate-[25deg]">
                             <div class="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-[0_0_12px_cyan] animate-[pulse-tip_2.8s_infinite]"></div>
                             <div class="absolute top-0 left-0 h-full w-[90px] bg-gradient-to-r from-transparent via-white to-transparent animate-[shoot-light_2.5s_linear_infinite_1s]"></div>
                         </div>
                     </div>
                  </div>
-
-                 <!-- Speed Overlay Text -->
+                 
                  <div class="absolute top-8 right-8 text-right z-40">
                     <div class="inline-flex flex-col items-end">
                         <span class="text-blue-400 text-[10px] font-bold uppercase tracking-[0.2em] mb-2">Network Status</span>
@@ -426,22 +416,13 @@
             <div class="fade-in-section order-1 md:order-2">
                 <div class="flex flex-col md:flex-row items-start md:items-center gap-6 mb-8">
                     
-                    <!-- DYNAMIC PALAYAM FIBRE LOGO -->
+                    <!-- Dynamic Logo -->
                     <div class="relative w-20 h-20 shrink-0">
-                        <!-- Glow effect behind -->
                         <div class="absolute inset-0 bg-cyan-500/20 rounded-full blur-xl animate-pulse"></div>
-                        
-                        <!-- Outer Slow Rotating Ring -->
                         <div class="absolute inset-0 border border-gray-800 rounded-full"></div>
                         <div class="absolute inset-0 border-[1.5px] border-dashed border-cyan-900 rounded-full animate-[spin_10s_linear_infinite]"></div>
-                        
-                        <!-- Middle Speed Ring (Cyan) -->
                         <div class="absolute inset-2 border-[1.5px] border-t-cyan-400 border-r-transparent border-b-cyan-400 border-l-transparent rounded-full animate-[spin_3s_linear_infinite]"></div>
-                        
-                        <!-- Inner Fast Ring (Blue) -->
                         <div class="absolute inset-5 border-[1.5px] border-t-transparent border-r-blue-500 border-b-transparent border-l-blue-500 rounded-full animate-[spin_1.5s_linear_infinite_reverse]"></div>
-                        
-                        <!-- The Core -->
                         <div class="absolute inset-0 m-auto w-3 h-3 bg-white rounded-full shadow-[0_0_20px_#22d3ee] animate-pulse"></div>
                     </div>
 
@@ -467,23 +448,24 @@
                     </div>
                 </div>
 
-                <!-- UPDATED LINK HERE -->
+                <!-- 
+                   !!! ATTENTION !!! 
+                   This button links to the secondary site 'fibre.html'.
+                   You must create a file named 'fibre.html' in your GitHub folder for this to work.
+                -->
                 <a href="fibre.html" class="text-cyan-400 font-bold hover:text-cyan-300 inline-flex items-center gap-2 group text-lg">
                     VISIT PALAYAM FIBRE <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
                 </a>
             </div>
-
         </div>
     </section>
 
-    <!-- Palayam Pay Section -->
+    <!-- PALAYAM PAY SECTION -->
     <section class="py-32 bg-[#080808] overflow-hidden relative border-t border-white/5">
-        <!-- Background decorative glow -->
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-900/5 rounded-full blur-[120px] pointer-events-none"></div>
 
         <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative z-10">
-            
-            <!-- Text Content -->
+            <!-- Text -->
             <div class="fade-in-section order-2 md:order-1">
                  <div class="inline-block mb-6">
                     <span class="py-2 px-4 rounded-full border border-gray-700 bg-gray-900/50 text-xs font-bold text-gray-400 tracking-wider uppercase backdrop-blur-md">Fintech Integration</span>
@@ -495,7 +477,6 @@
                  <p class="text-lg text-gray-400 mb-10 leading-relaxed max-w-md font-light">
                     Tap to play. Tap to eat. Tap to unlock. Use your phone or wristband to breeze through the centre. Secure, instant, and completely contact-free.
                  </p>
-                 
                  <div class="space-y-6 mb-10">
                      <div class="flex items-start gap-4 group">
                          <div class="w-12 h-12 rounded-full bg-gray-800/50 border border-white/5 flex items-center justify-center text-blue-400 shrink-0 group-hover:border-blue-500/30 transition-colors"><i data-lucide="zap" class="w-6 h-6"></i></div>
@@ -512,27 +493,20 @@
                          </div>
                      </div>
                  </div>
-
                  <button class="group flex items-center gap-3 bg-white text-black px-8 py-4 rounded-full font-bold hover:bg-gray-200 transition-all duration-300 shadow-[0_0_20px_-5px_rgba(255,255,255,0.3)]">
                     <i data-lucide="smartphone" class="w-5 h-5"></i>
                     <span>Add to Wallet</span>
                  </button>
             </div>
 
-            <!-- Visual (CSS Card) -->
+            <!-- CSS Credit Card -->
             <div class="fade-in-section order-1 md:order-2 flex justify-center perspective-1000">
-                 <!-- The Card Component -->
                  <div class="relative w-80 h-52 md:w-96 md:h-60 bg-gradient-to-br from-[#1a1a1a] to-black rounded-3xl border border-white/10 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8)] flex flex-col justify-between p-8 floating overflow-hidden group hover:border-white/30 transition-colors duration-500 hover:scale-105 transform">
-                     
-                     <!-- Shine effect on card -->
                      <div class="absolute -inset-[100%] top-0 block h-[200%] w-[200%] -rotate-45 translate-x-[-100%] group-hover:animate-[shine_1s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
-                     
                      <div class="flex justify-between items-start z-10">
-                         <!-- Logo on Card -->
                          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-2xl shadow-lg border border-white/10">P</div>
                          <i data-lucide="wifi" class="w-8 h-8 text-gray-600 rotate-90"></i>
                      </div>
-                     
                      <div class="z-10 mt-auto">
                          <div class="flex justify-between items-end">
                             <div>
@@ -545,8 +519,6 @@
                             </div>
                          </div>
                      </div>
-                     
-                     <!-- Decorative circles inside card -->
                      <div class="absolute -bottom-20 -right-20 w-56 h-56 bg-purple-600/20 rounded-full blur-[60px]"></div>
                      <div class="absolute -top-20 -left-20 w-56 h-56 bg-blue-600/10 rounded-full blur-[60px]"></div>
                  </div>
@@ -554,10 +526,10 @@
         </div>
     </section>
 
-    <!-- Parallax / Big Impact Section -->
+    <!-- NEWSLETTER SECTION -->
     <section class="relative py-40 flex items-center justify-center overflow-hidden border-t border-white/5">
         <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover opacity-20" alt="Event Crowd">
+            <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2070&auto=format&fit=crop" onerror="this.style.display='none'" class="w-full h-full object-cover opacity-20" alt="Event Crowd">
             <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black"></div>
         </div>
         
@@ -566,7 +538,6 @@
             <p class="text-xl md:text-2xl text-gray-300 mb-12 font-light max-w-2xl mx-auto">
                 Get early access to tickets, exclusive merch drops, and VIP lounge access.
             </p>
-            
             <form class="max-w-md mx-auto flex gap-3">
                 <input type="email" placeholder="Enter your email" class="flex-1 bg-white/5 border border-white/10 rounded-full px-6 py-4 text-white focus:outline-none focus:border-blue-500 focus:bg-white/10 backdrop-blur-md transition-all placeholder-gray-500">
                 <button type="button" class="bg-white text-black px-8 py-4 rounded-full font-bold hover:bg-gray-200 transition-colors shadow-lg shadow-white/10">
@@ -576,7 +547,7 @@
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- FOOTER -->
     <footer class="bg-[#050505] border-t border-white/5 pt-24 pb-12 px-6 text-sm text-gray-500">
         <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 mb-20">
             <div class="col-span-2 lg:col-span-2">
@@ -591,49 +562,40 @@
                     <i data-lucide="youtube" class="w-5 h-5 hover:text-white cursor-pointer transition-colors"></i>
                 </div>
             </div>
-            
             <div>
                 <h4 class="text-white font-bold mb-6">Shop</h4>
                 <ul class="space-y-4">
                     <li><a href="#" class="hover:text-blue-400 transition-colors">Tickets</a></li>
                     <li><a href="#" class="hover:text-blue-400 transition-colors">Merchandise</a></li>
-                    <li><a href="#" class="hover:text-blue-400 transition-colors">Gift Cards</a></li>
-                    <li><a href="#" class="hover:text-blue-400 transition-colors">Order Status</a></li>
                 </ul>
             </div>
-
             <div>
                 <h4 class="text-white font-bold mb-6">Experience</h4>
                 <ul class="space-y-4">
                     <li><a href="#" class="hover:text-blue-400 transition-colors">VR Zones</a></li>
                     <li><a href="#" class="hover:text-blue-400 transition-colors">Dining</a></li>
-                    <li><a href="#" class="hover:text-blue-400 transition-colors">Cinema</a></li>
-                    <li><a href="#" class="hover:text-blue-400 transition-colors">Events Calendar</a></li>
                 </ul>
             </div>
-
             <div>
                 <h4 class="text-white font-bold mb-6">Support</h4>
                 <ul class="space-y-4">
                     <li><a href="#" class="hover:text-blue-400 transition-colors">Contact Us</a></li>
                     <li><a href="#" class="hover:text-blue-400 transition-colors">FAQs</a></li>
-                    <li><a href="#" class="hover:text-blue-400 transition-colors">Privacy Policy</a></li>
-                    <li><a href="#" class="hover:text-blue-400 transition-colors">Terms of Service</a></li>
                 </ul>
             </div>
         </div>
-        
         <div class="max-w-7xl mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-gray-600">
             <p>&copy; 2024 Palayam Fun Centre. All rights reserved.</p>
             <p>Designed with <span class="text-red-500">♥</span> for the future.</p>
         </div>
     </footer>
 
+    <!-- SCRIPTS -->
     <script>
-        // Initialize Lucide Icons
+        // 1. Initialize Icons
         lucide.createIcons();
 
-        // Scroll Animation Observer
+        // 2. Scroll Animation Logic
         const observerOptions = {
             root: null,
             rootMargin: '0px',
@@ -653,19 +615,19 @@
             observer.observe(section);
         });
 
-        // Navbar Scroll Effect
+        // 3. Navbar Blur Effect
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
                 navbar.classList.add('shadow-lg');
-                navbar.style.background = 'rgba(5, 5, 5, 0.85)'; // Darker, more opaque on scroll
+                navbar.style.background = 'rgba(5, 5, 5, 0.85)';
             } else {
                 navbar.classList.remove('shadow-lg');
                 navbar.style.background = 'rgba(10, 10, 10, 0.7)';
             }
         });
 
-        // Hero Text Transition Logic
+        // 4. Hero Text Color Change Logic
         const heroText = document.getElementById('hero-text');
         const triggerBtn = document.getElementById('trigger-btn');
 
@@ -674,11 +636,11 @@
                 heroText.classList.add('active');
             }
         }
-
-        // Trigger 1: Auto-activate after 10 seconds
+        
+        // Auto-trigger after 10s
         setTimeout(activateTransition, 10000);
 
-        // Trigger 2: Activate on Button Click
+        // Click trigger
         if (triggerBtn) {
             triggerBtn.addEventListener('click', (e) => {
                 activateTransition();
