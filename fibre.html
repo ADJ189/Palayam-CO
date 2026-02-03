@@ -3,67 +3,103 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Palayam Lab</title>
+  <meta name="description" content="Palayam Fibre - Speed That Hits Different." />
+  <title>Palayam Fibre</title>
   <style>
+    :root {
+      --primary: #007bff;
+      --dark: #333;
+      --light: #fff;
+      --bg-gradient: linear-gradient(to bottom right, #007bff, #ffffff);
+      --glass: rgba(255, 255, 255, 0.95);
+    }
+
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to bottom right, #007bff, #ffffff);
-      color: #fff;
+      background: var(--bg-gradient);
+      color: var(--light);
       text-align: center;
       overflow-x: hidden;
       min-height: 100vh;
+      padding-bottom: 50px;
     }
+
+    /* Navigation */
     nav {
       background-color: rgba(0, 0, 0, 0.2);
       padding: 15px;
       display: flex;
       justify-content: center;
       gap: 20px;
-      animation: fadeIn 1.5s ease;
+      animation: fadeIn 1s ease;
       flex-wrap: wrap;
+      backdrop-filter: blur(5px);
+      position: relative;
+      z-index: 20;
     }
     nav a {
-      color: #fff;
+      color: var(--light);
       text-decoration: none;
       font-weight: bold;
       transition: color 0.3s;
     }
-    nav a:hover {
-      color: #ffd700;
-    }
+    nav a:hover { color: #ffd700; }
+
+    /* Header */
     header {
       padding: 40px 20px;
-      animation: popIn 1.5s ease;
+      animation: popIn 1s ease;
+      position: relative; /* Context for particles */
+      overflow: hidden;   /* Keep particles inside header */
     }
+    
+    /* Ensure Header Content is above particles */
+    header > * {
+      position: relative;
+      z-index: 10;
+    }
+
     header h1 {
       font-size: 3em;
       margin-bottom: 10px;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-      /* Flex to align coupon */
       display: flex;
       align-items: center;
       justify-content: center;
       flex-wrap: wrap;
       gap: 15px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
     }
-    header h1:hover {
-      transform: scale(1.05);
-      text-shadow: 0 0 10px #fff;
+    header p { font-size: 1.2em; opacity: 0.9; }
+
+    /* Data Particles (The Light Speed Effect) */
+    .data-particle {
+      position: absolute;
+      background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.9), rgba(255,255,255,0));
+      height: 2px;
+      border-radius: 2px;
+      pointer-events: none;
+      z-index: 1; /* Behind text */
+      opacity: 0;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
     }
-    header p {
-      font-size: 1.2em;
-      margin-bottom: 20px;
+    
+    @keyframes moveData {
+      0% { left: -20%; opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { left: 120%; opacity: 0; }
     }
+
+    /* Buttons */
     .btn {
-      background: #fff;
-      color: #007bff;
+      background: var(--light);
+      color: var(--primary);
       padding: 12px 24px;
       border-radius: 30px;
       text-decoration: none;
       font-weight: bold;
-      transition: all 0.3s ease;
+      transition: transform 0.2s, box-shadow 0.2s;
       display: inline-block;
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
       border: none;
@@ -71,168 +107,63 @@
       font-size: 1rem;
     }
     .btn:hover {
-      background: #0056b3;
-      color: #fff;
       transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
     }
+
+    /* Sections */
     .section {
-      padding: 60px 20px;
+      padding: 40px 20px;
       background: rgba(0, 0, 0, 0.1);
-      margin: 20px auto;
+      margin: 30px auto;
       border-radius: 20px;
       max-width: 800px;
       width: 90%;
-      animation: fadeInUp 1s ease;
-      position: relative;
+      animation: fadeInUp 0.8s ease;
     }
     .section h2 {
       font-size: 2em;
-      margin-bottom: 20px;
-      position: relative;
+      margin-bottom: 25px;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-wrap: wrap;
       gap: 10px;
     }
-    .stream {
-      background: #fff;
-      color: #000;
-      padding: 20px;
-      border-radius: 12px;
-      margin: 10px auto;
-      max-width: 600px;
-      transition: transform 0.3s ease;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    .stream:hover {
-      transform: scale(1.03);
-    }
-    .stream h3 {
-      margin: 0 0 10px;
-    }
-    .stream a.button-link {
-      display: inline-block;
-      margin-top: 10px;
-      background: #007bff;
-      color: #fff;
-      padding: 8px 16px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: background 0.3s ease;
-    }
-    .stream a.button-link:hover {
-      background: #0056b3;
-    }
-    .kalikal {
-      font-size: 1.5em;
-      background: rgba(255, 255, 255, 0.2);
-      padding: 20px;
-      border-radius: 12px;
+
+    /* Cards (Streams, AI Box) */
+    .card-box {
+      background: var(--glass);
+      color: var(--dark);
+      padding: 25px;
+      border-radius: 15px;
       margin: 20px auto;
-      max-width: 400px;
-      width: 90%;
-      animation: bounce 2s infinite ease-in-out;
-      backdrop-filter: blur(5px);
+      max-width: 600px;
+      text-align: left;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
     }
-    footer {
-      padding: 20px;
-      font-size: 0.9em;
-      background: rgba(0, 0, 0, 0.2);
-      margin-top: 40px;
-    }
-    .easter-egg {
-      position: absolute;
-      top: -20px;
-      right: 10px;
-      font-size: 40px;
-      cursor: pointer;
-      animation: bounce 1s infinite ease-in-out;
-      z-index: 10;
-      user-select: none;
-    }
+    .card-box:hover { transform: translateY(-2px); }
+    .card-box h3 { color: var(--primary); margin-top: 0; }
     
-    /* Custom Toast Notification */
-    .toast-container {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1000;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .toast {
-      background: rgba(0, 0, 0, 0.85);
-      color: white;
-      padding: 12px 24px;
-      border-radius: 50px;
-      font-size: 1rem;
-      animation: slideUp 0.3s ease-out;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    /* Stock Rate Widget */
+    .stock-container {
       display: flex;
       align-items: center;
-      gap: 10px;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px 0;
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid #eee;
     }
-
-    /* AI Section Specifics */
-    .ai-box {
-        background: rgba(255, 255, 255, 0.95);
-        color: #333;
-        padding: 25px;
-        border-radius: 15px;
-        margin: 20px auto;
-        max-width: 600px;
-        text-align: left;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    }
-    .ai-box h3 {
-        color: #007bff;
-        margin-top: 0;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    /* Stock Widget Styles */
-    .stock-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 20px;
-        margin: 20px 0;
-        background: #f8f9fa;
-        padding: 15px;
-        border-radius: 10px;
-    }
-    .stock-rate {
-        font-size: 3.5em;
-        font-weight: 800;
-        transition: color 0.5s ease;
-        line-height: 1;
-    }
-    .stock-icon-wrapper {
-        width: 80px;
-        height: 80px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: transform 0.5s ease;
-    }
-    .stock-icon-wrapper svg {
-        width: 100%;
-        height: 100%;
-        stroke-width: 2.5px;
-        stroke-linecap: round;
-        stroke-linejoin: round;
-    }
-
-    /* Achievement Styles */
+    .stock-rate { font-size: 3em; font-weight: 800; line-height: 1; }
+    
+    /* Achievements Grid */
     .achievement-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
       gap: 15px;
       margin-top: 20px;
     }
@@ -241,38 +172,25 @@
       padding: 15px;
       border-radius: 12px;
       text-align: center;
-      transition: all 0.3s ease;
       border: 1px solid #e9ecef;
-      cursor: default;
+      transition: all 0.3s ease;
     }
     .achievement-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      border-color: #f39c12;
       background: #fff;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border-color: #f39c12;
     }
     .achievement-icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       font-size: 2.5em;
       margin-bottom: 10px;
-      display: block;
-      transition: transform 0.3s ease;
-    }
-    .achievement-card:hover .achievement-icon {
-        transform: scale(1.2);
-    }
-    .achievement-title {
-      font-size: 0.95em;
-      font-weight: 700;
-      color: #333;
-      margin-bottom: 5px;
-    }
-    .achievement-desc {
-      font-size: 0.75em;
-      color: #666;
-      line-height: 1.3;
+      height: 60px;
     }
 
-    /* Coupon Styles */
+    /* Coupon */
     .student-coupon {
       display: inline-block;
       background-color: #ff4757;
@@ -283,296 +201,255 @@
       border: 2px dashed rgba(255,255,255,0.8);
       vertical-align: middle;
       transform: rotate(-3deg);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
       cursor: pointer;
-      position: relative;
       transition: all 0.3s ease;
       font-weight: bold;
-      letter-spacing: 0.5px;
     }
-    .student-coupon:not(.torn):hover {
-      transform: rotate(0deg) scale(1.1);
-      background-color: #ff6b81;
-      border-color: #fff;
-    }
-    .student-coupon::after {
-        content: '✂️';
-        font-size: 1.2em;
-        margin-left: 8px;
-        vertical-align: middle;
-    }
-    /* Torn State */
+    .student-coupon:not(.torn):hover { transform: rotate(0deg) scale(1.1); }
     .student-coupon.torn {
         background-color: #2ecc71;
         border-style: solid;
-        border-color: #fff;
-        transform: rotate(0deg) scale(1.05);
+        transform: rotate(0deg);
         cursor: default;
     }
-    .student-coupon.torn::after {
-        content: '✅';
+
+    /* Kalikal Counter */
+    .kalikal-bar {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 20px;
+      border-radius: 12px;
+      margin: 40px auto;
+      max-width: 500px;
+      width: 90%;
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      font-size: 1.5em;
+      font-weight: bold;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes popIn {
-      0% { transform: scale(0.8); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-5px); }
-    }
-    @keyframes slideUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
+    /* Utilities */
+    .badge { background: #f39c12; font-size: 0.5em; padding: 4px 8px; border-radius: 10px; vertical-align: middle; }
+    .easter-egg { position: absolute; top: -20px; right: 10px; font-size: 40px; cursor: pointer; animation: bounce 2s infinite; }
     
-    .badge {
-        background-color: #f39c12; 
-        color: #fff; 
-        padding: 5px 10px; 
-        border-radius: 12px; 
-        font-size: 0.5em;
-        vertical-align: middle;
-        display: inline-block;
-    }
+    /* Toast */
+    .toast-container { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; display: flex; flex-direction: column; gap: 10px; }
+    .toast { background: rgba(0,0,0,0.9); padding: 12px 24px; border-radius: 50px; animation: slideUp 0.3s; display: flex; align-items: center; gap: 10px; font-size: 0.95rem; }
+
+    /* Animations */
+    @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+    @keyframes fadeInUp { from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
+    @keyframes popIn { 0% {transform:scale(0.8); opacity:0;} 100% {transform:scale(1); opacity:1;} }
+    @keyframes bounce { 0%, 100% {transform:translateY(0);} 50% {transform:translateY(-10px);} }
+    @keyframes slideUp { from {transform:translateY(20px); opacity:0;} to {transform:translateY(0); opacity:1;} }
   </style>
 </head>
 <body>
+
+  <!-- Navigation -->
   <nav>
     <a href="#">Home</a>
-    <a href="#live">Features</a>
-    <a href="#ai-zone">Lab</a>
-    <a href="#">Contact</a>
+    <a href="#lab">Lab</a>
+    <a href="#live">Live</a>
   </nav>
-  <header>
-    <h1 id="logo">
-        🧪 Palayam Lab
-    </h1>
+
+  <!-- Header -->
+  <header id="mainHeader">
+    <h1 id="logo">📶 Palayam Fibre</h1>
     <p><em>Speed That Hits Different 🏎️💨</em></p>
-    <a class="btn" href="#ai-zone">Visit the Lab ✨ →</a>
+    <a class="btn" href="#lab">Enter the Lab ✨</a>
   </header>
 
-  <!-- AI Section -->
-  <section class="section" id="ai-zone" style="background: rgba(0,0,0,0.2);">
-      <h2>
-          🤖 Palayam Lab 
-          <span class="badge">BETA</span>
-          <span class="student-coupon" onclick="tearCoupon(event)" title="Click to claim!">STUDENT DISCOUNT ( ST )</span>
-      </h2>
-      <p>Experimental features & Market Watch</p>
-
-      <!-- Feature 1: Palayam Rate Today -->
-      <div class="ai-box">
-          <h3>📊 Palayam Rate Today <small>Live</small></h3>
-          <p>Current market value of Palayam Fiber stocks. (Updates every 1 min)</p>
-          
-          <div class="stock-container">
-            <!-- Inline SVG Container -->
-            <div id="stockIconContainer" class="stock-icon-wrapper">
-                <!-- SVG injected by JS -->
-            </div>
-            <div style="text-align: left;">
-                <div class="stock-rate" id="stockRate">$120</div>
-                <div style="font-size: 0.8rem; color: #666;" id="lastUpdate">Updated: Just now</div>
-            </div>
-          </div>
-          
-          <p style="font-size: 0.8em; color: #888; margin-top: 0;">*This number is completely random. Don't sell your house.</p>
-      </div>
-
-      <!-- Feature 2: Palayam Achievements -->
-      <div class="ai-box">
-          <h3>🏆 Palayam Achievements <small>Hall of Fame</small></h3>
-          
-          <div class="achievement-grid">
-            <div class="achievement-card">
-              <span class="achievement-icon" style="display: flex; justify-content: center; align-items: center;">
-                <!-- Custom SVG for Red Wrapper/Packet -->
-                <svg width="1em" height="1em" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="10" y="10" width="80" height="80" fill="#E53935" rx="2" />
-                    <rect x="5" y="5" width="90" height="90" stroke="#C62828" stroke-width="3" stroke-dasharray="4 4" rx="4" fill="none"/>
-                    <circle cx="50" cy="50" r="28" stroke="#B71C1C" stroke-width="3" fill="#EF5350" />
-                    <circle cx="50" cy="50" r="18" fill="#E53935" />
-                    <path d="M25 25 Q 35 35 25 45" stroke="#FFCDD2" stroke-width="2" fill="none" />
-                    <path d="M75 25 Q 65 35 75 45" stroke="#FFCDD2" stroke-width="2" fill="none" />
-                    <path d="M25 75 Q 35 65 25 55" stroke="#B71C1C" stroke-width="2" fill="none" opacity="0.3" />
-                </svg>
-              </span>
-              <div class="achievement-title">Kalikal King</div>
-              <div class="achievement-desc">Most Kalikal in 24hrs (Record: 999)</div>
-            </div>
-            <div class="achievement-card">
-              <span class="achievement-icon" style="display: flex; justify-content: center; align-items: center;">
-                <!-- YouTube Icon SVG -->
-                <svg viewBox="0 0 24 24" width="1em" height="1em" fill="#FF0000">
-                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                </svg>
-              </span>
-              <div class="achievement-title">Show of the Year</div>
-              <div class="achievement-desc">Midnight Faisuu Stream Special</div>
-            </div>
-            <div class="achievement-card">
-              <span class="achievement-icon">💦</span>
-              <div class="achievement-title">Biggest Oil up party</div>
-              <div class="achievement-desc">Slippery surfaces everywhere</div>
-            </div>
-            <div class="achievement-card" style="grid-column: span 2;">
-               <span class="achievement-icon" style="display: flex; justify-content: center; align-items: center;">
-                   <!-- Custom Bunny Maid Icon -->
-                   <svg width="1.2em" height="1.2em" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                      <!-- Left Ear -->
-                      <path d="M30 65 Q 15 5 40 5 Q 55 35 45 65" fill="white" stroke="#333" stroke-width="2"/>
-                      <path d="M33 60 Q 25 20 38 20 Q 45 40 40 60" fill="#FFC0CB" />
-                      <!-- Right Ear -->
-                      <path d="M70 65 Q 90 15 60 5 Q 45 35 55 65" fill="white" stroke="#333" stroke-width="2"/>
-                      <path d="M67 60 Q 78 25 62 20 Q 55 40 60 60" fill="#FFC0CB" />
-                      <!-- Headband -->
-                      <path d="M20 70 Q 50 50 80 70" stroke="white" stroke-width="10" stroke-linecap="round"/>
-                      <path d="M20 70 Q 50 50 80 70" stroke="#ddd" stroke-width="2" fill="none" stroke-dasharray="4 2"/>
-                      <!-- Bowtie -->
-                      <path d="M35 85 L 50 95 L 65 85 L 50 75 Z" fill="#1a1a1a" />
-                      <circle cx="50" cy="85" r="6" fill="#000" />
-                  </svg>
-               </span>
-               <div class="achievement-title">Worlds greatest cosplay convention</div>
-               <div class="achievement-desc">Railway midnight cosplay</div>
-            </div>
-          </div>
-      </div>
-  </section>
-
-  <section class="section" id="live">
-    <h2>📡 LIVE FEEDS 
-        <span class="badge">FAST AAYI KALIKKAM</span>
-      <span class="easter-egg" id="oilEgg" title="Touch the coconut power!">🪂</span>
+  <!-- LAB SECTION -->
+  <section class="section" id="lab">
+    <h2>
+      🤖 Palayam Lab 
+      <span class="badge">BETA</span>
+      <span class="student-coupon" onclick="tearCoupon(event)" title="Click to claim!">STUDENT DISCOUNT ( ST ) ✂️</span>
     </h2>
-    <div class="stream">
-      <h3>🔥 Faisuu Special Midnight Live 🛢️</h3>
-      <p>Streaming straight from the terrace with a ring light and dreams.</p>
-      <!-- Added rel="noopener noreferrer" for security on GitHub -->
-      <a class="button-link" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer">Watch Live →</a>
-      <p><small>Join over 200K viewers now! 🛢️</small></p>
+    <p>Experimental features & Market Watch</p>
+
+    <!-- Stock Rate -->
+    <div class="card-box">
+      <h3>📊 Palayam Rate Today <small style="font-size:0.6em; color:#888;">Live</small></h3>
+      <div class="stock-container">
+        <div id="stockIconContainer" style="width:60px; height:60px;"></div>
+        <div>
+          <div class="stock-rate" id="stockRate">$120</div>
+          <div style="font-size: 0.8rem; color: #666;" id="lastUpdate">Updating...</div>
+        </div>
+      </div>
+      <p style="font-size: 0.8em; color: #888; margin: 0;">*Randomized market simulation.</p>
     </div>
-    <div class="stream">
-      <h3>💰 Faisu Bids</h3>
-      <p>Place your bets on what Faisuu will break next. High stakes, low logic.</p>
-      <a class="button-link" href="#" onclick="placeBid(event)">Start Bidding →</a>
+
+    <!-- Achievements -->
+    <div class="card-box">
+      <h3>🏆 Hall of Fame</h3>
+      <div class="achievement-grid">
+        <!-- Kalikal King -->
+        <div class="achievement-card">
+          <div class="achievement-icon">
+            <svg width="1em" height="1em" viewBox="0 0 100 100" fill="none">
+               <rect x="10" y="10" width="80" height="80" fill="#E53935" rx="2" />
+               <rect x="5" y="5" width="90" height="90" stroke="#C62828" stroke-width="3" stroke-dasharray="4 4" rx="4" fill="none"/>
+               <circle cx="50" cy="50" r="28" stroke="#B71C1C" stroke-width="3" fill="#EF5350" />
+               <circle cx="50" cy="50" r="18" fill="#E53935" />
+            </svg>
+          </div>
+          <div class="achievement-title">Kalikal King</div>
+          <div class="achievement-desc">Record: 999</div>
+        </div>
+        <!-- Show of Year -->
+        <div class="achievement-card">
+          <div class="achievement-icon">
+             <svg viewBox="0 0 24 24" width="1em" height="1em" fill="#FF0000"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </div>
+          <div class="achievement-title">Show of the Year</div>
+          <div class="achievement-desc">Midnight Stream</div>
+        </div>
+        <!-- Oil Party -->
+        <div class="achievement-card">
+          <div class="achievement-icon">💦</div>
+          <div class="achievement-title">Oil Party</div>
+          <div class="achievement-desc">Slippery surfaces</div>
+        </div>
+        <!-- Cosplay -->
+        <div class="achievement-card" style="grid-column: span 2;"> <!-- Wider card -->
+          <div class="achievement-icon">
+             <svg width="1em" height="1em" viewBox="0 0 100 100">
+                <path d="M30 65 Q 15 5 40 5 Q 55 35 45 65" fill="white" stroke="#333" stroke-width="2"/>
+                <path d="M33 60 Q 25 20 38 20 Q 45 40 40 60" fill="#FFC0CB" />
+                <path d="M70 65 Q 90 15 60 5 Q 45 35 55 65" fill="white" stroke="#333" stroke-width="2"/>
+                <path d="M67 60 Q 78 25 62 20 Q 55 40 60 60" fill="#FFC0CB" />
+                <path d="M20 70 Q 50 50 80 70" stroke="white" stroke-width="8" stroke-linecap="round"/>
+                <path d="M35 85 L 50 95 L 65 85 L 50 75 Z" fill="#1a1a1a" />
+             </svg>
+          </div>
+          <div class="achievement-title">Worlds Greatest Cosplay</div>
+          <div class="achievement-desc">Railway midnight cosplay</div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="kalikal">
-    <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-        🧮 NO. OF KALIKAL: <span id="kalikalCount">20</span> 
-        <!-- Bunny Maid SVG -->
-        <span style="font-size: 1.5em; line-height: 0;">
-             <svg width="1em" height="1em" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                  <!-- Left Ear -->
-                  <path d="M30 65 Q 15 5 40 5 Q 55 35 45 65" fill="white" stroke="#333" stroke-width="2"/>
-                  <path d="M33 60 Q 25 20 38 20 Q 45 40 40 60" fill="#FFC0CB" />
-                  <!-- Right Ear -->
-                  <path d="M70 65 Q 90 15 60 5 Q 45 35 55 65" fill="white" stroke="#333" stroke-width="2"/>
-                  <path d="M67 60 Q 78 25 62 20 Q 55 40 60 60" fill="#FFC0CB" />
-                  <!-- Headband -->
-                  <path d="M20 70 Q 50 50 80 70" stroke="white" stroke-width="8" stroke-linecap="round"/>
-                  <path d="M20 70 Q 50 50 80 70" stroke="#ddd" stroke-width="2" fill="none" stroke-dasharray="4 2"/>
-                  <!-- Bowtie -->
-                  <path d="M35 85 L 50 95 L 65 85 L 50 75 Z" fill="#1a1a1a" />
-                  <circle cx="50" cy="85" r="6" fill="#000" />
-              </svg>
-        </span>
+  <!-- LIVE SECTION -->
+  <section class="section" id="live">
+    <h2>
+      📡 LIVE FEEDS 
+      <span class="badge">FAST</span>
+      <span class="easter-egg" id="oilEgg" title="Coconut Power">🪂</span>
+    </h2>
+    
+    <div class="card-box">
+      <h3>🔥 Faisuu Special Midnight Live</h3>
+      <p>Streaming straight from the terrace.</p>
+      <!-- Safe External Link -->
+      <a class="btn" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer">Watch Live →</a>
     </div>
+
+    <div class="card-box">
+      <h3>💰 Faisu Bids</h3>
+      <p>Place your bets on what breaks next.</p>
+      <button class="btn" onclick="placeBid()">Start Bidding →</button>
+    </div>
+
   </section>
+
+  <!-- COUNTER SECTION -->
+  <div class="kalikal-bar">
+    <span>🧮 NO. OF KALIKAL:</span>
+    <span id="kalikalCount">--</span>
+    <!-- Bunny Maid Icon -->
+    <span style="font-size: 1.2em; line-height: 0;">
+        <svg width="1em" height="1em" viewBox="0 0 100 100">
+            <path d="M30 65 Q 15 5 40 5 Q 55 35 45 65" fill="white" stroke="#333" stroke-width="2"/>
+            <path d="M33 60 Q 25 20 38 20 Q 45 40 40 60" fill="#FFC0CB" />
+            <path d="M70 65 Q 90 15 60 5 Q 45 35 55 65" fill="white" stroke="#333" stroke-width="2"/>
+            <path d="M67 60 Q 78 25 62 20 Q 55 40 60 60" fill="#FFC0CB" />
+            <path d="M20 70 Q 50 50 80 70" stroke="white" stroke-width="8" stroke-linecap="round"/>
+            <path d="M35 85 L 50 95 L 65 85 L 50 75 Z" fill="#1a1a1a" />
+        </svg>
+    </span>
+  </div>
 
   <footer>
-    <p>No buffering. No nonsense. Just Vibes. <br/> © 2025 Palayam Lab Ltd.</p>
+    <p>© 2025 Palayam Fibre Ltd. <br> No buffering. Just Vibes.</p>
   </footer>
 
+  <!-- Audio Asset -->
   <audio id="blastSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_9d703403fa.mp3?filename=explosion-6085.mp3"></audio>
   
+  <!-- Notification Container -->
   <div class="toast-container" id="toastContainer"></div>
 
   <script>
-    // --- Stock Rate Logic ---
-    const upSvg = `
-        <svg viewBox="0 0 24 24" fill="none" stroke="#28a745">
-            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-            <polyline points="17 6 23 6 23 12"></polyline>
-        </svg>
-    `;
-    
-    const downSvg = `
-        <svg viewBox="0 0 24 24" fill="none" stroke="#dc3545">
-            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-            <polyline points="17 18 23 18 23 12"></polyline>
-        </svg>
-    `;
+    // --- APP LOGIC ---
 
-    function updateStockRate() {
-        const rateEl = document.getElementById('stockRate');
-        const iconContainer = document.getElementById('stockIconContainer');
-        const updateEl = document.getElementById('lastUpdate');
+    // 1. Toast Notification System
+    function showToast(message, icon = '🔔') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      // Securely setting text
+      const iconSpan = document.createElement('span');
+      iconSpan.textContent = icon;
+      const msgSpan = document.createElement('span');
+      msgSpan.textContent = message;
+      
+      toast.appendChild(iconSpan);
+      toast.appendChild(msgSpan);
+      container.appendChild(toast);
 
-        // Random value between 75 and 150
-        const min = 75;
-        const max = 150;
-        const newRate = Math.floor(Math.random() * (max - min + 1)) + min;
-        
-        // Get previous rate (default to 100 if first run)
-        let prevRate = parseInt(rateEl.dataset.prev || "100");
-
-        // Animate out
-        rateEl.style.opacity = 0;
-        iconContainer.style.transform = "scale(0.8)";
-
-        setTimeout(() => {
-            // Set new values
-            rateEl.innerText = `$${newRate}`;
-            
-            if (newRate >= prevRate) {
-                // Stock UP (Green)
-                rateEl.style.color = "#28a745"; 
-                iconContainer.innerHTML = upSvg;
-                showToast(`Palayam Rate UP! Now $${newRate}`, "📈");
-            } else {
-                // Stock DOWN (Red)
-                rateEl.style.color = "#dc3545"; 
-                iconContainer.innerHTML = downSvg;
-                showToast(`Palayam Rate DOWN! Now $${newRate}`, "📉");
-            }
-
-            // Save for next comparison
-            rateEl.dataset.prev = newRate;
-            
-            // Update timestamp
-            const now = new Date();
-            updateEl.innerText = "Updated: " + now.toLocaleTimeString();
-
-            // Animate in
-            rateEl.style.opacity = 1;
-            iconContainer.style.transform = "scale(1)";
-        }, 300);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
     }
 
-    // Initialize Stock Logic
-    updateStockRate(); 
-    setInterval(updateStockRate, 60000); // Run every 1 minute
+    // 2. Stock Rate Logic
+    const upSvg = `<svg viewBox="0 0 24 24" width="100%" height="100%" fill="none" stroke="#28a745" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>`;
+    const downSvg = `<svg viewBox="0 0 24 24" width="100%" height="100%" fill="none" stroke="#dc3545" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline><polyline points="17 18 23 18 23 12"></polyline></svg>`;
 
+    function updateStockRate() {
+      const rateEl = document.getElementById('stockRate');
+      const iconContainer = document.getElementById('stockIconContainer');
+      const updateEl = document.getElementById('lastUpdate');
 
-    // --- Logic for the 'Kalikal' Counter ---
+      const min = 75, max = 150;
+      const newRate = Math.floor(Math.random() * (max - min + 1)) + min;
+      const prevRate = parseInt(rateEl.dataset.prev || "100");
+
+      // Animation
+      rateEl.style.opacity = 0;
+      iconContainer.style.transform = "scale(0.8)";
+
+      setTimeout(() => {
+        rateEl.innerText = `$${newRate}`;
+        if (newRate >= prevRate) {
+            rateEl.style.color = "#28a745";
+            iconContainer.innerHTML = upSvg;
+        } else {
+            rateEl.style.color = "#dc3545";
+            iconContainer.innerHTML = downSvg;
+        }
+        rateEl.dataset.prev = newRate;
+        updateEl.innerText = "Updated: " + new Date().toLocaleTimeString();
+        
+        rateEl.style.opacity = 1;
+        iconContainer.style.transform = "scale(1)";
+      }, 300);
+    }
+    setInterval(updateStockRate, 60000); // 1 minute
+    updateStockRate(); // Initial call
+
+    // 3. Kalikal Counter (Persistence + Medium Rate)
     const startCount = 20;
     const kalikalSpan = document.getElementById("kalikalCount");
-    let currentCount = startCount;
     let startTime;
-    
-    // Use localStorage to make the count persist for the user
+
+    // Secure localStorage access
     try {
         const stored = localStorage.getItem('palayamStartTime');
         if (stored) {
@@ -582,97 +459,87 @@
             localStorage.setItem('palayamStartTime', startTime.getTime());
         }
     } catch(e) {
-        startTime = new Date(); // Fallback if localStorage blocked
+        startTime = new Date();
     }
 
     function updateKalikal() {
       const now = new Date();
-      const diffMs = Math.abs(now - startTime); 
-      // Medium rate: Increase 1 unit every 30 seconds
+      const diffMs = Math.abs(now - startTime);
+      // Medium Rate: Increases 1 every 30 seconds
       const diffUnits = Math.floor(diffMs / 30000); 
-      const newCount = startCount + diffUnits;
-
-      const step = () => {
-        if (currentCount < newCount) {
-          currentCount++;
-          kalikalSpan.textContent = currentCount;
-          requestAnimationFrame(step);
-        } else {
-            kalikalSpan.textContent = newCount;
-        }
-      }
-      requestAnimationFrame(step);
+      const currentVal = startCount + diffUnits;
+      kalikalSpan.textContent = currentVal;
     }
-    
+    setInterval(updateKalikal, 30000);
     updateKalikal();
-    setInterval(updateKalikal, 30000); // Check every 30 seconds
 
-    // --- Toast Notification Logic ---
-    function showToast(message, icon = '🧪') {
-      const container = document.getElementById('toastContainer');
-      const toast = document.createElement('div');
-      toast.className = 'toast';
-      // Safe to use innerHTML here as message/icon inputs are hardcoded in our own functions
-      toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
-      container.appendChild(toast);
+    // 4. HEADER PARTICLES (Light Speed Data Bytes)
+    function initParticles() {
+        const header = document.getElementById('mainHeader');
+        const particleCount = 20;
 
-      setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transform = 'translateY(20px)';
-        setTimeout(() => toast.remove(), 300);
-      }, 3000);
+        for (let i = 0; i < particleCount; i++) {
+            const p = document.createElement('div');
+            p.classList.add('data-particle');
+            
+            // Random properties for chaotic light speed feel
+            const top = Math.random() * 100; // 0-100% height
+            const width = Math.random() * 50 + 20; // Length of the light trail
+            const duration = Math.random() * 1.5 + 0.5; // 0.5s to 2s (Fast!)
+            const delay = Math.random() * 5; 
+
+            p.style.top = top + '%';
+            p.style.width = width + 'px';
+            p.style.animationDuration = duration + 's';
+            p.style.animationDelay = delay + 's';
+            p.style.animationName = 'moveData';
+            p.style.animationIterationCount = 'infinite';
+            p.style.animationTimingFunction = 'linear';
+
+            header.appendChild(p);
+        }
     }
-    
-    // Coupon Logic
-    function tearCoupon(e) {
-      e.stopPropagation(); 
-      const el = e.currentTarget;
-      
-      if(el.classList.contains('torn')) return; 
+    initParticles();
 
-      // Animate tear
-      el.style.transform = "rotate(15deg) scale(1.1)"; 
-      
+    // 5. Interaction Handlers
+    function tearCoupon(e) {
+      e.stopPropagation();
+      const el = e.currentTarget;
+      if(el.classList.contains('torn')) return;
+
+      el.style.transform = "rotate(10deg) scale(1.1)";
       setTimeout(() => {
-          el.innerHTML = "Student Discounts Unlocked! 🎓";
+          el.innerHTML = "Student Discounts Unlocked! ✅";
           el.classList.add('torn');
-          el.style.transform = "rotate(0deg) scale(1)"; 
-          
-          showToast("Discount unlocked! Show your ID at the junction.", "🎓");
+          el.style.transform = "rotate(0deg)";
+          showToast("Discount Unlocked! 🎓");
       }, 200);
     }
 
-    // --- Interaction Handlers ---
-    document.getElementById("logo").addEventListener("click", () => {
-      showToast("Welcome to Palayam Lab! 🧪");
-    });
-
-    const oilEgg = document.getElementById("oilEgg");
-    oilEgg.addEventListener("click", () => {
-      const sound = document.getElementById("blastSound");
-      sound.play().catch(e => console.log("Audio play failed:", e));
-      
-      oilEgg.style.transition = "transform 0.6s ease, opacity 0.6s ease";
-      oilEgg.style.transform = "scale(4) rotate(1080deg)";
-      oilEgg.style.opacity = 0;
-      
-      setTimeout(() => showToast("💥 BHOOM! Coconut power activated!", "🥥"), 600);
-      
-      setTimeout(() => {
-        oilEgg.style.transition = "none";
-        oilEgg.style.transform = "scale(1) rotate(0deg)";
-        oilEgg.style.opacity = 1;
-      }, 3000);
-    });
-
-    function placeBid(e) {
-      if(e) e.preventDefault();
+    function placeBid() {
       const items = ["Power Cut", "Ring Light Fall", "Neighbor Yelling", "Rain"];
-      const randomItem = items[Math.floor(Math.random() * items.length)];
-      showToast(`Bid placed! You bet ₹500 on '${randomItem}'. Good luck! 🎲`);
+      const item = items[Math.floor(Math.random() * items.length)];
+      showToast(`Bid placed on: ${item} 🎲`);
     }
+
+    document.getElementById("oilEgg").addEventListener("click", function() {
+       const sound = document.getElementById("blastSound");
+       sound.play().catch(() => showToast("Audio blocked by browser 🔇"));
+       
+       this.style.transition = "transform 0.5s";
+       this.style.transform = "scale(5) rotate(720deg)";
+       this.style.opacity = 0;
+       
+       showToast("Coconut Power Activated! 🥥");
+       
+       setTimeout(() => {
+           this.style.transform = "scale(1) rotate(0deg)";
+           this.style.opacity = 1;
+       }, 3000);
+    });
   </script>
 </body>
+</html>
 </html>
 </body>
 </html>
