@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Palayam Pay — The walletless payment system powering every transaction inside the Fun Centre.">
+    <title>Palayam Pay | Tap. Play. Go.</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Display font: Cormorant Garamond (sharp, editorial luxury) + DM Sans (clean body) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --gold: #c9a84c;
+            --gold-light: #e8c97a;
+            --gold-dim: #8a6e2f;
+            --black: #080808;
+            --surface: #0f0f0f;
+            --surface-2: #141414;
+            --border: rgba(255,255,255,0.06);
+            --border-gold: rgba(201,168,76,0.2);
+            --text-muted: #5a5a5a;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--black);
+            color: #fff;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, .display {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* ─── SCROLLBAR ─── */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--black); }
+        ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--gold-dim); }
+
+        /* ─── SELECTION ─── */
+        ::selection { background: rgba(201,168,76,0.25); color: #fff; }
+
+        /* ─── NOISE OVERLAY ─── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.4;
+        }
+
+        /* ─── NAV ─── */
+        .nav-glass {
+            background: rgba(8,8,8,0.8);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* ─── GOLD GRADIENT TEXT ─── */
+        .text-gold {
+            background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-dim) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .text-gold-subtle {
+            background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ─── ANIMATIONS ─── */
+        @keyframes fade-up {
+            from { opacity: 0; transform: translateY(32px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fade-in {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+        @keyframes float-card {
+            0%, 100% { transform: translateY(0px) rotate(-4deg); }
+            50%       { transform: translateY(-14px) rotate(-4deg); }
+        }
+        @keyframes float-card-2 {
+            0%, 100% { transform: translateY(0px) rotate(3deg); }
+            50%       { transform: translateY(-10px) rotate(3deg); }
+        }
+        @keyframes shimmer-line {
+            0%   { transform: translateX(-100%); }
+            100% { transform: translateX(400%); }
+        }
+        @keyframes pulse-ring {
+            0%   { transform: scale(1);   opacity: 0.6; }
+            100% { transform: scale(2.2); opacity: 0; }
+        }
+        @keyframes ticker {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        @keyframes count {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes bar-fill {
+            from { width: 0; }
+            to   { width: var(--w); }
+        }
+        @keyframes glow-breathe {
+            0%, 100% { box-shadow: 0 0 40px -10px rgba(201,168,76,0.15); }
+            50%       { box-shadow: 0 0 80px -10px rgba(201,168,76,0.35); }
+        }
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+        @keyframes wristband-pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.4); }
+            50%       { box-shadow: 0 0 0 16px rgba(201,168,76,0); }
+        }
+
+        /* ─── SCROLL REVEAL ─── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(36px);
+            transition: opacity 1s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1);
+        }
+        .reveal.visible { opacity: 1; transform: none; }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.35s; }
+        .reveal-delay-4 { transition-delay: 0.5s; }
+
+        /* ─── HERO ENTRY ─── */
+        .hero-animate { animation: fade-up 1.2s cubic-bezier(0.16,1,0.3,1) both; }
+        .hero-animate-2 { animation: fade-up 1.2s cubic-bezier(0.16,1,0.3,1) 0.15s both; }
+        .hero-animate-3 { animation: fade-up 1.2s cubic-bezier(0.16,1,0.3,1) 0.3s both; }
+        .hero-animate-4 { animation: fade-up 1.2s cubic-bezier(0.16,1,0.3,1) 0.45s both; }
+        .hero-animate-5 { animation: fade-in 1.4s ease 0.6s both; }
+
+        /* ─── CARD FLOAT ─── */
+        .card-float-1 { animation: float-card   7s ease-in-out infinite; }
+        .card-float-2 { animation: float-card-2 9s ease-in-out infinite 1s; }
+
+        /* ─── CARD ─── */
+        .pay-card {
+            background: linear-gradient(135deg, #1c1a14 0%, #0f0e0b 60%, #12100a 100%);
+            border: 1px solid rgba(201,168,76,0.18);
+            box-shadow:
+                0 40px 80px -20px rgba(0,0,0,0.9),
+                0 0 0 1px rgba(201,168,76,0.06) inset,
+                inset 0 1px 0 rgba(255,255,255,0.06);
+        }
+        .pay-card .shimmer {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.04) 50%, transparent 60%);
+            animation: shimmer-line 4s ease-in-out infinite;
+        }
+        .chip {
+            width: 44px; height: 34px;
+            background: linear-gradient(135deg, #c9a84c 0%, #e8c97a 40%, #a07830 100%);
+            border-radius: 6px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 2px 8px rgba(0,0,0,0.4);
+        }
+        .chip::before {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            border: 1px solid rgba(0,0,0,0.25);
+            border-radius: 3px;
+        }
+        .chip::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 0; right: 0;
+            height: 1px;
+            background: rgba(0,0,0,0.2);
+            transform: translateY(-50%);
+        }
+
+        /* ─── HOVER LIFT ─── */
+        .hover-lift {
+            transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), border-color 0.3s, box-shadow 0.4s;
+        }
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            border-color: rgba(201,168,76,0.25) !important;
+            box-shadow: 0 20px 60px -15px rgba(0,0,0,0.7), 0 0 30px -10px rgba(201,168,76,0.1);
+        }
+
+        /* ─── DIVIDER ─── */
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border-gold), transparent);
+        }
+
+        /* ─── FEATURE ICON ─── */
+        .feature-icon {
+            width: 52px; height: 52px;
+            border-radius: 14px;
+            border: 1px solid var(--border-gold);
+            background: rgba(201,168,76,0.05);
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.3s, border-color 0.3s, transform 0.3s;
+        }
+        .feature-card:hover .feature-icon {
+            background: rgba(201,168,76,0.1);
+            border-color: rgba(201,168,76,0.4);
+            transform: scale(1.08);
+        }
+
+        /* ─── STAT NUMBER ─── */
+        .stat-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(52px, 8vw, 96px);
+            font-weight: 300;
+            line-height: 1;
+            letter-spacing: -0.03em;
+        }
+
+        /* ─── TICKER ─── */
+        .ticker-wrap { overflow: hidden; white-space: nowrap; }
+        .ticker-inner { display: inline-block; animation: ticker 30s linear infinite; }
+
+        /* ─── TESTIMONIAL ─── */
+        .testimonial-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            transition: border-color 0.3s, transform 0.4s cubic-bezier(0.16,1,0.3,1);
+        }
+        .testimonial-card:hover {
+            border-color: var(--border-gold);
+            transform: translateY(-4px);
+        }
+
+        /* ─── WRISTBAND ─── */
+        .wristband {
+            animation: wristband-pulse 3s ease-in-out infinite;
+        }
+
+        /* ─── STEP LINE ─── */
+        .step-line {
+            background: linear-gradient(to bottom, var(--gold-dim), transparent);
+        }
+
+        /* ─── BTN PRIMARY ─── */
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            color: #080808;
+            transition: opacity 0.2s, transform 0.2s, box-shadow 0.3s;
+            box-shadow: 0 0 0 0 rgba(201,168,76,0.4);
+        }
+        .btn-gold:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 32px -8px rgba(201,168,76,0.5);
+        }
+        .btn-gold:active { transform: translateY(0); }
+
+        /* ─── BTN GHOST ─── */
+        .btn-ghost {
+            border: 1px solid rgba(255,255,255,0.12);
+            color: #fff;
+            transition: background 0.2s, border-color 0.2s, transform 0.2s;
+        }
+        .btn-ghost:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.22);
+            transform: translateY(-1px);
+        }
+
+        /* ─── SECTION LABEL ─── */
+        .section-label {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+
+        /* ─── GLOW CARD ─── */
+        .glow-card { animation: glow-breathe 4s ease-in-out infinite; }
+
+        /* ─── PROGRESS BAR ─── */
+        .prog-bar {
+            height: 3px;
+            border-radius: 2px;
+            background: rgba(255,255,255,0.06);
+            overflow: hidden;
+        }
+        .prog-fill {
+            height: 100%;
+            border-radius: 2px;
+            background: linear-gradient(to right, var(--gold-dim), var(--gold-light));
+            animation: bar-fill 1.6s cubic-bezier(0.16,1,0.3,1) both;
+        }
+
+        /* ─── HERO BG ─── */
+        .hero-bg {
+            background:
+                radial-gradient(ellipse 80% 60% at 50% 100%, rgba(201,168,76,0.04) 0%, transparent 70%),
+                radial-gradient(ellipse 60% 40% at 80% 20%, rgba(255,255,255,0.02) 0%, transparent 60%),
+                var(--black);
+        }
+
+        /* ─── GRID LINES ─── */
+        .grid-lines {
+            background-image:
+                linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+            background-size: 80px 80px;
+        }
+
+        /* ─── TAG ─── */
+        .tag {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     NAVIGATION
+═══════════════════════════════════════════════ -->
+<nav class="fixed w-full z-50 nav-glass transition-all duration-500" id="navbar">
+    <div style="max-width:1280px" class="mx-auto px-6 py-4 flex justify-between items-center">
+
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center gap-3 group">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm transition-transform duration-500 group-hover:rotate-12"
+                 style="background:linear-gradient(135deg,#c9a84c,#8a6e2f); color:#080808; font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:700;">
+                P
+            </div>
+            <span style="font-family:'DM Sans',sans-serif; font-size:15px; font-weight:600; letter-spacing:-0.01em;">
+                Palayam <span class="text-gold-subtle">Pay</span>
+            </span>
+        </a>
+
+        <!-- Links -->
+        <div class="hidden md:flex items-center gap-8" style="font-size:13px; font-weight:500; color:#666;">
+            <a href="#features" class="hover:text-white transition-colors duration-300">Features</a>
+            <a href="#how-it-works" class="hover:text-white transition-colors duration-300">How It Works</a>
+            <a href="#security" class="hover:text-white transition-colors duration-300">Security</a>
+            <a href="#pricing" class="hover:text-white transition-colors duration-300">Pricing</a>
+            <a href="index.html" class="hover:text-white transition-colors duration-300">← Palayam</a>
+        </div>
+
+        <!-- CTA -->
+        <div class="flex items-center gap-3">
+            <button class="btn-ghost hidden md:block px-5 py-2 rounded-full text-sm font-medium">Sign In</button>
+            <button class="btn-gold px-5 py-2 rounded-full text-sm font-bold">Get Started</button>
+        </div>
+    </div>
+</nav>
+
+
+<!-- ═══════════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════ -->
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden hero-bg pt-20">
+
+    <!-- Grid BG -->
+    <div class="absolute inset-0 grid-lines opacity-100 pointer-events-none"></div>
+
+    <!-- Radial vignette -->
+    <div class="absolute inset-0 pointer-events-none"
+         style="background:radial-gradient(ellipse 70% 70% at 50% 50%, transparent 30%, var(--black) 100%);">
+    </div>
+
+    <div style="max-width:1280px" class="mx-auto px-6 w-full relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+            <!-- LEFT: Text -->
+            <div>
+                <!-- Badge -->
+                <div class="hero-animate inline-flex items-center gap-2 mb-8"
+                     style="padding:6px 14px; border-radius:100px; border:1px solid rgba(201,168,76,0.25); background:rgba(201,168,76,0.04);">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style="background:var(--gold);"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2" style="background:var(--gold);"></span>
+                    </span>
+                    <span class="tag" style="color:var(--gold);">Now live across all zones</span>
+                </div>
+
+                <!-- Headline -->
+                <h1 class="hero-animate-2" style="font-size:clamp(52px,7vw,96px); font-weight:300; line-height:1.0; letter-spacing:-0.03em;">
+                    Money<br>
+                    should move<br>
+                    <em class="text-gold" style="font-style:italic;">at the speed<br>of joy.</em>
+                </h1>
+
+                <p class="hero-animate-3 mt-8 mb-10" style="font-size:17px; line-height:1.7; color:#888; max-width:420px; font-weight:300;">
+                    Palayam Pay is the frictionless payment layer powering every tap, swipe, and smile inside the Fun Centre. One wristband. Zero friction. Infinite possibilities.
+                </p>
+
+                <!-- CTAs -->
+                <div class="hero-animate-4 flex flex-wrap gap-4">
+                    <button class="btn-gold px-8 py-4 rounded-full font-bold flex items-center gap-2" style="font-size:15px;">
+                        <i data-lucide="smartphone" style="width:18px;height:18px;"></i>
+                        Add to Wallet
+                    </button>
+                    <button class="btn-ghost px-8 py-4 rounded-full flex items-center gap-2" style="font-size:15px;">
+                        Watch Demo
+                        <i data-lucide="play-circle" style="width:18px;height:18px;"></i>
+                    </button>
+                </div>
+
+                <!-- Trust row -->
+                <div class="hero-animate-5 flex items-center gap-6 mt-12"
+                     style="padding-top:32px; border-top:1px solid var(--border);">
+                    <div style="font-size:12px; color:var(--text-muted); font-weight:500; letter-spacing:0.04em; text-transform:uppercase;">Trusted by</div>
+                    <div class="flex items-center gap-4" style="color:#444; font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:500; letter-spacing:0.06em;">
+                        <span style="color:#555;">OYO</span>
+                        <span style="color:#2a2a2a;">·</span>
+                        <span style="color:#555;">VISA</span>
+                        <span style="color:#2a2a2a;">·</span>
+                        <span style="color:#555;">Mastercard</span>
+                        <span style="color:#2a2a2a;">·</span>
+                        <span style="color:#555;">UPI</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: Card Stack -->
+            <div class="relative h-[480px] flex items-center justify-center">
+
+                <!-- Glow -->
+                <div class="absolute w-80 h-80 rounded-full pointer-events-none"
+                     style="background:radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%); top:50%; left:50%; transform:translate(-50%,-50%);">
+                </div>
+
+                <!-- Pulse ring -->
+                <div class="absolute w-48 h-48 rounded-full pointer-events-none"
+                     style="border:1px solid rgba(201,168,76,0.15); top:50%; left:50%; transform:translate(-50%,-50%); animation: pulse-ring 3s ease-out infinite;">
+                </div>
+                <div class="absolute w-48 h-48 rounded-full pointer-events-none"
+                     style="border:1px solid rgba(201,168,76,0.08); top:50%; left:50%; transform:translate(-50%,-50%); animation: pulse-ring 3s ease-out infinite 1.5s;">
+                </div>
+
+                <!-- Card 2 (back) -->
+                <div class="pay-card card-float-2 absolute rounded-3xl overflow-hidden select-none"
+                     style="width:360px; height:218px; top:50%; left:50%; transform:translate(-55%,-45%) rotate(3deg); z-index:1; opacity:0.55;">
+                    <div class="shimmer"></div>
+                    <div style="padding:28px 28px; height:100%; display:flex; flex-direction:column; justify-content:space-between;">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                            <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#555,#333);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:#888;">P</div>
+                            <div style="width:28px;height:28px;color:#444;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1.5 8.25h21M1.5 15.75h21M5.25 3h13.5a3 3 0 013 3v12a3 3 0 01-3 3H5.25a3 3 0 01-3-3V6a3 3 0 013-3z"/></svg>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:#333;margin-bottom:6px;">Member Card</div>
+                            <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#444;letter-spacing:0.06em;">•••• •••• •••• 4821</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 1 (front - main) -->
+                <div class="pay-card card-float-1 glow-card absolute rounded-3xl overflow-hidden select-none"
+                     style="width:380px; height:228px; top:50%; left:50%; transform:translate(-50%,-50%) rotate(-4deg); z-index:2; cursor:default;">
+                    <div class="shimmer"></div>
+
+                    <!-- Decorative circle -->
+                    <div class="absolute rounded-full" style="width:280px;height:280px;right:-80px;bottom:-100px;background:radial-gradient(circle,rgba(201,168,76,0.06) 0%,transparent 70%);"></div>
+
+                    <div style="padding:32px; height:100%; display:flex; flex-direction:column; justify-content:space-between; position:relative; z-index:1;">
+
+                        <!-- Top row -->
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <div style="width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--gold-light),var(--gold));box-shadow:0 4px 16px rgba(201,168,76,0.3);">
+                                    <span style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:#080808;">P</span>
+                                </div>
+                                <div>
+                                    <div style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);">Palayam</div>
+                                    <div style="font-family:'DM Sans',sans-serif;font-size:10px;color:#555;letter-spacing:0.08em;text-transform:uppercase;">Pay · Gold</div>
+                                </div>
+                            </div>
+                            <!-- NFC icon -->
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" style="color:#3a3a3a; transform:rotate(90deg);">
+                                <path d="M5 12.55a11 11 0 0 1 14.08 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+
+                        <!-- Chip row -->
+                        <div class="chip"></div>
+
+                        <!-- Bottom row -->
+                        <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+                            <div>
+                                <div style="font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#444;margin-bottom:6px;">Balance</div>
+                                <div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:400;letter-spacing:-0.01em;" class="text-gold">₹ 12,480</div>
+                            </div>
+                            <div style="text-align:right;">
+                                <div style="font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#333;margin-bottom:4px;">Coins</div>
+                                <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:#6a5a30;">624 ✦</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transaction popup -->
+                <div class="absolute z-10 rounded-2xl px-4 py-3"
+                     style="bottom:30px; right:10px; background:rgba(15,14,11,0.95); border:1px solid rgba(201,168,76,0.2); backdrop-filter:blur(12px); min-width:200px; animation:fade-up 1s 1s both;">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <div style="width:36px;height:36px;border-radius:10px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);display:flex;align-items:center;justify-content:center;color:var(--gold);flex-shrink:0;">
+                            <i data-lucide="zap" style="width:16px;height:16px;"></i>
+                        </div>
+                        <div>
+                            <div style="font-size:12px;font-weight:600;color:#fff;">VR Arena · Zone 01</div>
+                            <div style="font-size:11px;color:#555;margin-top:2px;">₹ 350 · Just now</div>
+                        </div>
+                        <div style="margin-left:auto;width:8px;height:8px;border-radius:50%;background:#22c55e;flex-shrink:0;box-shadow:0 0 8px rgba(34,197,94,0.5);"></div>
+                    </div>
+                </div>
+
+                <!-- Coins earned popup -->
+                <div class="absolute z-10 rounded-2xl px-4 py-3"
+                     style="top:40px; left:0px; background:rgba(15,14,11,0.95); border:1px solid rgba(201,168,76,0.2); backdrop-filter:blur(12px); animation:fade-up 1s 1.3s both;">
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <span style="font-size:18px;">✦</span>
+                        <div>
+                            <div style="font-size:12px;font-weight:600;color:var(--gold);">+17 Coins Earned</div>
+                            <div style="font-size:11px;color:#555;margin-top:1px;">5% back on every spend</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom fade -->
+    <div class="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
+         style="background:linear-gradient(to bottom, transparent, var(--black));"></div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     TICKER STRIP
+═══════════════════════════════════════════════ -->
+<div class="ticker-wrap py-4" style="background:rgba(201,168,76,0.04); border-top:1px solid var(--border-gold); border-bottom:1px solid var(--border-gold);">
+    <div class="ticker-inner" style="font-family:'Cormorant Garamond',serif; font-size:16px; font-weight:400; color:var(--gold-dim); letter-spacing:0.08em;">
+        <span style="margin:0 48px;">Tap to Pay</span>
+        <span style="margin:0 16px; opacity:0.3;">✦</span>
+        <span style="margin:0 48px;">Zero Friction</span>
+        <span style="margin:0 16px; opacity:0.3;">✦</span>
+        <span style="margin:0 48px;">5% Coins Back</span>
+        <span style="margin:0 16px; opacity:0.3;">✦</span>
+        <span style="margin:0 48px;">AES-256 Secure</span>
+        <span style="margin:0 16px; opacity:0.3;">✦</span>
+        <span style="margin:0 48px;">Instant Transfers</span>
+        <span style="margin:0 16px; opacity:0.3;">✦</span>
+        <span style="margin:0 48px;">UPI · Visa · MC</span>
+        <span style="margin:0 16px; opacity:0.3;">✦</span>
+        <span style="margin:0 48px;">Tap to Pay</span>
+        <span style="margin:0 16px; opacity:0.3;">✦</span>
+        <span style="margin:0 48px;">Zero Friction</span>
+        <span style="margin:0 16px; opacity:0.3;">✦</span>
+        <span style="margin:0 48px;">5% Coins Back</span>
+        <span style="margin:0 16px; opacity:0.3;">✦</span>
+        <span style="margin:0 48px;">AES-256 Secure</span>
+        <span style="margin:0 16px; opacity:0.3;">✦</span>
+        <span style="margin:0 48px;">Instant Transfers</span>
+        <span style="margin:0 16px; opacity:0.3;">✦</span>
+        <span style="margin:0 48px;">UPI · Visa · MC</span>
+        <span style="margin:0 16px; opacity:0.3;">✦</span>
+    </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     STATS
+═══════════════════════════════════════════════ -->
+<section style="padding:80px 0; background:var(--surface); border-bottom:1px solid var(--border);">
+    <div style="max-width:1280px;" class="mx-auto px-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-0" style="border:1px solid var(--border); border-radius:20px; overflow:hidden;">
+            <div class="reveal text-center" style="padding:48px 32px; border-right:1px solid var(--border);">
+                <div class="stat-num text-gold">₹2B+</div>
+                <div style="font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-top:12px;">Processed</div>
+            </div>
+            <div class="reveal reveal-delay-1 text-center" style="padding:48px 32px; border-right:1px solid var(--border);">
+                <div class="stat-num" style="color:#fff;">1.2M</div>
+                <div style="font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-top:12px;">Transactions</div>
+            </div>
+            <div class="reveal reveal-delay-2 text-center" style="padding:48px 32px; border-right:1px solid var(--border);">
+                <div class="stat-num text-gold">0.3s</div>
+                <div style="font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-top:12px;">Avg. Tap Time</div>
+            </div>
+            <div class="reveal reveal-delay-3 text-center" style="padding:48px 32px;">
+                <div class="stat-num" style="color:#fff;">99.99%</div>
+                <div style="font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-top:12px;">Uptime</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     FEATURES
+═══════════════════════════════════════════════ -->
+<section id="features" style="padding:120px 0; background:var(--black);">
+    <div style="max-width:1280px;" class="mx-auto px-6">
+
+        <div class="reveal text-center mb-20">
+            <p class="section-label mb-4">Features</p>
+            <h2 style="font-size:clamp(42px,6vw,72px); font-weight:300; line-height:1.05; letter-spacing:-0.03em;">
+                Every feature,<br><em class="text-gold" style="font-style:italic;">engineered for speed.</em>
+            </h2>
+        </div>
+
+        <!-- Primary 2-col feature -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+
+            <!-- Big Feature 1 -->
+            <div class="reveal feature-card hover-lift rounded-3xl p-10 relative overflow-hidden"
+                 style="background:var(--surface); border:1px solid var(--border); min-height:320px;">
+                <div class="absolute pointer-events-none" style="width:300px;height:300px;right:-80px;bottom:-80px;background:radial-gradient(circle,rgba(201,168,76,0.05) 0%,transparent 70%);"></div>
+                <div class="feature-icon mb-8">
+                    <i data-lucide="zap" style="width:22px;height:22px;color:var(--gold);"></i>
+                </div>
+                <h3 style="font-size:32px;font-weight:400;letter-spacing:-0.02em;margin-bottom:16px;">Tap &amp; Go</h3>
+                <p style="font-size:15px;line-height:1.7;color:#666;font-weight:300;max-width:360px;">
+                    One wristband tap authorises any transaction across all four zones in under 300 milliseconds. No PIN. No app open. No friction whatsoever.
+                </p>
+                <div class="divider mt-10 mb-8"></div>
+                <div class="flex gap-6">
+                    <div>
+                        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;" class="text-gold">300ms</div>
+                        <div style="font-size:11px;color:#555;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-top:4px;">Auth speed</div>
+                    </div>
+                    <div style="width:1px;background:var(--border);"></div>
+                    <div>
+                        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;color:#fff;">4 Zones</div>
+                        <div style="font-size:11px;color:#555;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-top:4px;">Coverage</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Big Feature 2 -->
+            <div class="reveal reveal-delay-1 feature-card hover-lift rounded-3xl p-10 relative overflow-hidden"
+                 style="background:var(--surface); border:1px solid var(--border); min-height:320px;">
+                <div class="absolute pointer-events-none" style="width:300px;height:300px;left:-80px;top:-80px;background:radial-gradient(circle,rgba(201,168,76,0.04) 0%,transparent 70%);"></div>
+                <div class="feature-icon mb-8">
+                    <i data-lucide="gem" style="width:22px;height:22px;color:var(--gold);"></i>
+                </div>
+                <h3 style="font-size:32px;font-weight:400;letter-spacing:-0.02em;margin-bottom:16px;">Coins Rewards</h3>
+                <p style="font-size:15px;line-height:1.7;color:#666;font-weight:300;max-width:360px;">
+                    Earn 5% back on every rupee spent as Palayam Coins. Redeem for free passes, food, merch, or exclusive VIP experiences.
+                </p>
+                <div class="divider mt-10 mb-8"></div>
+                <!-- Progress bars -->
+                <div style="display:flex;flex-direction:column;gap:14px;">
+                    <div>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:12px;font-weight:500;color:#555;">
+                            <span>Gaming</span><span class="text-gold-subtle">62%</span>
+                        </div>
+                        <div class="prog-bar"><div class="prog-fill" style="--w:62%;"></div></div>
+                    </div>
+                    <div>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:12px;font-weight:500;color:#555;">
+                            <span>Dining</span><span class="text-gold-subtle">38%</span>
+                        </div>
+                        <div class="prog-bar"><div class="prog-fill" style="--w:38%;animation-delay:0.3s;"></div></div>
+                    </div>
+                    <div>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:12px;font-weight:500;color:#555;">
+                            <span>Retail</span><span class="text-gold-subtle">24%</span>
+                        </div>
+                        <div class="prog-bar"><div class="prog-fill" style="--w:24%;animation-delay:0.6s;"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3-col features -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <div class="reveal feature-card hover-lift rounded-3xl p-8"
+                 style="background:var(--surface); border:1px solid var(--border);">
+                <div class="feature-icon mb-6">
+                    <i data-lucide="shield-check" style="width:20px;height:20px;color:var(--gold);"></i>
+                </div>
+                <h3 style="font-size:22px;font-weight:400;letter-spacing:-0.01em;margin-bottom:12px;">Tokenised Security</h3>
+                <p style="font-size:14px;line-height:1.7;color:#666;font-weight:300;">Your card details are never stored. Every transaction uses a unique one-time token, encrypted with AES-256.</p>
+            </div>
+
+            <div class="reveal reveal-delay-1 feature-card hover-lift rounded-3xl p-8"
+                 style="background:var(--surface); border:1px solid var(--border);">
+                <div class="feature-icon mb-6">
+                    <i data-lucide="smartphone" style="width:20px;height:20px;color:var(--gold);"></i>
+                </div>
+                <h3 style="font-size:22px;font-weight:400;letter-spacing:-0.01em;margin-bottom:12px;">Live Spend Tracker</h3>
+                <p style="font-size:14px;line-height:1.7;color:#666;font-weight:300;">Instant push notifications for every transaction. Full spend analytics in the Palayam app — real time, always clear.</p>
+            </div>
+
+            <div class="reveal reveal-delay-2 feature-card hover-lift rounded-3xl p-8"
+                 style="background:var(--surface); border:1px solid var(--border);">
+                <div class="feature-icon mb-6">
+                    <i data-lucide="users" style="width:20px;height:20px;color:var(--gold);"></i>
+                </div>
+                <h3 style="font-size:22px;font-weight:400;letter-spacing:-0.01em;margin-bottom:12px;">Family Wallet</h3>
+                <p style="font-size:14px;line-height:1.7;color:#666;font-weight:300;">Link up to 6 wristbands under one account. Set individual spending limits for kids. One dashboard, total control.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     HOW IT WORKS
+═══════════════════════════════════════════════ -->
+<section id="how-it-works" style="padding:120px 0; background:var(--surface); border-top:1px solid var(--border);">
+    <div style="max-width:1280px;" class="mx-auto px-6">
+
+        <div class="reveal mb-20">
+            <p class="section-label mb-4">How It Works</p>
+            <h2 style="font-size:clamp(42px,6vw,72px); font-weight:300; line-height:1.05; letter-spacing:-0.03em; max-width:500px;">
+                Up and running<br><em class="text-gold" style="font-style:italic;">in three steps.</em>
+            </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-0 relative">
+
+            <!-- Connecting line (desktop) -->
+            <div class="hidden md:block absolute" style="top:56px; left:calc(16.66% + 26px); right:calc(16.66% + 26px); height:1px; background:linear-gradient(to right, var(--gold-dim), rgba(201,168,76,0.1), var(--gold-dim)); z-index:0;"></div>
+
+            <!-- Step 1 -->
+            <div class="reveal text-center relative z-10 px-8 pb-12 md:pb-0">
+                <div class="mx-auto mb-8 rounded-full flex items-center justify-center"
+                     style="width:52px;height:52px;background:var(--black);border:1px solid var(--border-gold);font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--gold);">
+                    1
+                </div>
+                <h3 style="font-size:22px;font-weight:400;letter-spacing:-0.01em;margin-bottom:14px;">Get Your Wristband</h3>
+                <p style="font-size:14px;line-height:1.7;color:#666;font-weight:300;">Collect your NFC wristband at any Palayam entrance kiosk. Takes 30 seconds.</p>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="reveal reveal-delay-1 text-center relative z-10 px-8 pb-12 md:pb-0">
+                <div class="mx-auto mb-8 rounded-full flex items-center justify-center"
+                     style="width:52px;height:52px;background:linear-gradient(135deg,rgba(201,168,76,0.15),rgba(201,168,76,0.05));border:1px solid var(--border-gold);font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--gold);">
+                    2
+                </div>
+                <h3 style="font-size:22px;font-weight:400;letter-spacing:-0.01em;margin-bottom:14px;">Top Up &amp; Link</h3>
+                <p style="font-size:14px;line-height:1.7;color:#666;font-weight:300;">Fund your wallet via UPI, card, or cash. Link it to the Palayam app for real-time tracking.</p>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="reveal reveal-delay-2 text-center relative z-10 px-8">
+                <div class="mx-auto mb-8 rounded-full flex items-center justify-center"
+                     style="width:52px;height:52px;background:var(--black);border:1px solid var(--border-gold);font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--gold);">
+                    3
+                </div>
+                <h3 style="font-size:22px;font-weight:400;letter-spacing:-0.01em;margin-bottom:14px;">Tap Everywhere</h3>
+                <p style="font-size:14px;line-height:1.7;color:#666;font-weight:300;">One tap pays for everything — VR sessions, food, retail, hotels — across every zone, instantly.</p>
+            </div>
+        </div>
+
+        <!-- Wristband Visual -->
+        <div class="reveal mt-24 flex justify-center">
+            <div class="relative flex items-center justify-center" style="width:280px;height:280px;">
+                <!-- Spinning ring -->
+                <div class="absolute rounded-full" style="inset:0;border:1px dashed rgba(201,168,76,0.15);animation:spin-slow 20s linear infinite;"></div>
+                <div class="absolute rounded-full" style="inset:20px;border:1px solid rgba(201,168,76,0.08);animation:spin-slow 15s linear infinite reverse;"></div>
+
+                <!-- Wristband centre -->
+                <div class="wristband rounded-2xl flex flex-col items-center justify-center"
+                     style="width:140px;height:140px;background:linear-gradient(135deg,var(--gold-light),var(--gold),var(--gold-dim));box-shadow:0 20px 60px -10px rgba(201,168,76,0.3);">
+                    <span style="font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;color:#080808;">P</span>
+                    <span style="font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(8,8,8,0.5);margin-top:4px;">Pay</span>
+                </div>
+
+                <!-- Labels -->
+                <div class="absolute" style="top:10px;right:-20px;font-size:11px;font-weight:600;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;">NFC</div>
+                <div class="absolute" style="bottom:10px;left:-20px;font-size:11px;font-weight:600;color:#444;letter-spacing:0.1em;text-transform:uppercase;">Secure</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     SECURITY
+═══════════════════════════════════════════════ -->
+<section id="security" style="padding:120px 0; background:var(--black); border-top:1px solid var(--border);">
+    <div style="max-width:1280px;" class="mx-auto px-6">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
+
+            <!-- Left: Text -->
+            <div class="reveal">
+                <p class="section-label mb-4">Security</p>
+                <h2 style="font-size:clamp(42px,5vw,64px); font-weight:300; line-height:1.05; letter-spacing:-0.03em; margin-bottom:24px;">
+                    Built on<br><em class="text-gold" style="font-style:italic;">institutional trust.</em>
+                </h2>
+                <p style="font-size:16px;line-height:1.75;color:#666;font-weight:300;margin-bottom:40px;max-width:420px;">
+                    Palayam Pay is built on the same security architecture used by global banking institutions. Your money is protected at every layer — hardware, software, and network.
+                </p>
+
+                <div style="display:flex;flex-direction:column;gap:20px;">
+                    <div class="flex items-start gap-4 group" style="cursor:default;">
+                        <div class="feature-icon" style="width:42px;height:42px;flex-shrink:0;margin-top:2px;">
+                            <i data-lucide="lock" style="width:16px;height:16px;color:var(--gold);"></i>
+                        </div>
+                        <div>
+                            <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:4px;">AES-256 Encryption</div>
+                            <div style="font-size:13px;color:#555;line-height:1.6;font-weight:300;">Every transaction is encrypted at the hardware level before it travels a single byte.</div>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 group" style="cursor:default;">
+                        <div class="feature-icon" style="width:42px;height:42px;flex-shrink:0;margin-top:2px;">
+                            <i data-lucide="fingerprint" style="width:16px;height:16px;color:var(--gold);"></i>
+                        </div>
+                        <div>
+                            <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:4px;">Biometric Auth</div>
+                            <div style="font-size:13px;color:#555;line-height:1.6;font-weight:300;">Link your wristband to fingerprint or face ID for high-value transactions above ₹5,000.</div>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 group" style="cursor:default;">
+                        <div class="feature-icon" style="width:42px;height:42px;flex-shrink:0;margin-top:2px;">
+                            <i data-lucide="eye-off" style="width:16px;height:16px;color:var(--gold);"></i>
+                        </div>
+                        <div>
+                            <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:4px;">Zero Data Retention</div>
+                            <div style="font-size:13px;color:#555;line-height:1.6;font-weight:300;">Card numbers are never stored — only secure tokens that expire after each use.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Security visual -->
+            <div class="reveal reveal-delay-2 flex justify-center">
+                <div class="relative" style="width:320px;height:360px;">
+                    <!-- Central shield -->
+                    <div class="absolute rounded-3xl flex flex-col items-center justify-center"
+                         style="inset:0;background:var(--surface);border:1px solid var(--border-gold);">
+                        <div class="absolute inset-0 rounded-3xl pointer-events-none"
+                             style="background:radial-gradient(circle at 50% 40%, rgba(201,168,76,0.06) 0%, transparent 60%);"></div>
+                        <div style="margin-bottom:20px;color:var(--gold);opacity:0.8;">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                <path d="M9 12l2 2 4-4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:#fff;margin-bottom:6px;">PCI DSS</div>
+                        <div style="font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#444;">Level 1 Certified</div>
+
+                        <div class="divider" style="width:80%;margin:24px 0;"></div>
+
+                        <div style="display:flex;gap:24px;text-align:center;">
+                            <div>
+                                <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);">256-bit</div>
+                                <div style="font-size:10px;color:#444;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-top:4px;">Encryption</div>
+                            </div>
+                            <div style="width:1px;background:var(--border);"></div>
+                            <div>
+                                <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#fff;">3DS2</div>
+                                <div style="font-size:10px;color:#444;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-top:4px;">Auth</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Corner badges -->
+                    <div class="absolute rounded-xl px-3 py-2 flex items-center gap-2"
+                         style="top:-12px;right:-12px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.25);backdrop-filter:blur(8px);">
+                        <div style="width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px rgba(34,197,94,0.5);"></div>
+                        <span style="font-size:11px;font-weight:700;color:#22c55e;letter-spacing:0.08em;text-transform:uppercase;">Live</span>
+                    </div>
+
+                    <div class="absolute rounded-xl px-3 py-2"
+                         style="bottom:-12px;left:-12px;background:rgba(201,168,76,0.08);border:1px solid var(--border-gold);backdrop-filter:blur(8px);">
+                        <span style="font-size:11px;font-weight:600;color:var(--gold);letter-spacing:0.08em;text-transform:uppercase;">RBI Compliant</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     PRICING
+═══════════════════════════════════════════════ -->
+<section id="pricing" style="padding:120px 0; background:var(--surface); border-top:1px solid var(--border);">
+    <div style="max-width:1280px;" class="mx-auto px-6">
+
+        <div class="reveal text-center mb-20">
+            <p class="section-label mb-4">Pricing</p>
+            <h2 style="font-size:clamp(42px,6vw,72px); font-weight:300; line-height:1.05; letter-spacing:-0.03em;">
+                Transparent.<br><em class="text-gold" style="font-style:italic;">Always.</em>
+            </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+
+            <!-- Free -->
+            <div class="reveal hover-lift rounded-3xl p-8 flex flex-col"
+                 style="background:var(--black);border:1px solid var(--border);">
+                <div>
+                    <div class="tag mb-2" style="color:#555;">Visitor</div>
+                    <div style="font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;letter-spacing:-0.03em;margin-top:16px;margin-bottom:6px;">Free</div>
+                    <div style="font-size:13px;color:#555;font-weight:300;margin-bottom:32px;">For day-trip guests</div>
+                    <div class="divider mb-8"></div>
+                    <ul style="list-style:none;display:flex;flex-direction:column;gap:14px;margin-bottom:40px;">
+                        <li style="display:flex;gap:12px;align-items:flex-start;font-size:13px;color:#666;font-weight:300;">
+                            <i data-lucide="check" style="width:14px;height:14px;color:var(--gold);flex-shrink:0;margin-top:2px;"></i>
+                            NFC wristband included
+                        </li>
+                        <li style="display:flex;gap:12px;align-items:flex-start;font-size:13px;color:#666;font-weight:300;">
+                            <i data-lucide="check" style="width:14px;height:14px;color:var(--gold);flex-shrink:0;margin-top:2px;"></i>
+                            Tap-to-pay across all zones
+                        </li>
+                        <li style="display:flex;gap:12px;align-items:flex-start;font-size:13px;color:#666;font-weight:300;">
+                            <i data-lucide="check" style="width:14px;height:14px;color:var(--gold);flex-shrink:0;margin-top:2px;"></i>
+                            1% Coins back
+                        </li>
+                        <li style="display:flex;gap:12px;align-items:flex-start;font-size:13px;color:#444;font-weight:300;">
+                            <i data-lucide="minus" style="width:14px;height:14px;color:#333;flex-shrink:0;margin-top:2px;"></i>
+                            Family wallet
+                        </li>
+                        <li style="display:flex;gap:12px;align-items:flex-start;font-size:13px;color:#444;font-weight:300;">
+                            <i data-lucide="minus" style="width:14px;height:14px;color:#333;flex-shrink:0;margin-top:2px;"></i>
+                            Priority support
+                        </li>
+                    </ul>
+                </div>
+                <button class="btn-ghost mt-auto w-full py-4 rounded-full font-semibold" style="font-size:14px;">Get Wristband</button>
+            </div>
+
+            <!-- Gold (Popular) -->
+            <div class="reveal reveal-delay-1 hover-lift rounded-3xl p-8 flex flex-col relative overflow-hidden"
+                 style="background:linear-gradient(160deg,#1c1a12 0%,#0f0e0a 100%);border:1px solid rgba(201,168,76,0.3);box-shadow:0 0 60px -20px rgba(201,168,76,0.15);">
+                <div class="absolute pointer-events-none" style="width:200px;height:200px;right:-50px;bottom:-50px;background:radial-gradient(circle,rgba(201,168,76,0.06) 0%,transparent 70%);"></div>
+
+                <div class="absolute top-5 right-5 rounded-full px-3 py-1"
+                     style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);">
+                    <span class="tag text-gold-subtle">Popular</span>
+                </div>
+
+                <div>
+                    <div class="tag mb-2" style="color:var(--gold-dim);">Gold Member</div>
+                    <div style="font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;letter-spacing:-0.03em;margin-top:16px;margin-bottom:0;" class="text-gold">₹99</div>
+                    <div style="font-size:13px;color:#666;font-weight:300;margin-bottom:32px;">per month</div>
+                    <div class="divider mb-8"></div>
+                    <ul style="list-style:none;display:flex;flex-direction:column;gap:14px;margin-bottom:40px;">
+                        <li style="display:flex;gap:12px;align-items:flex-start;font-size:13px;color:#888;font-weight:300;">
+                            <i data-lucide="check" style="width:14px;height:14px;color:var(--gold);flex-shrink:0;margin-top:2px;"></i>
+                            Everything in Visitor
+                        </li>
+                        <li style="display:flex;gap:12px;align-items:flex-start;font-size:13px;color:#888;font-weight:300;">
+                            <i data-lucide="check" style="width:14px;height:14px;color:var(--gold);flex-shrink:0;margin-top:2px;"></i>
+                            5% Coins back
+                        </li>
+                        <li style="display:flex;gap:12px;align-items:flex-start;font-size:13px;color:#888;font-weight:300;">
+                            <i data-lucide="check" style="width:14px;height:14px;color:var(--gold);flex-shrink:0;margin-top:2px;"></i>
+                            Family wallet (up to 6)
+                        </li>
+                        <li style="display:flex;gap:12px;align-items:flex-start;font-size:13px;color:#888;font-weight:300;">
+                            <i data-lucide="check" style="width:14px;height:14px;color:var(--gold);flex-shrink:0;margin-top:2px;"></i>
+                            Spend analytics dashboard
+                        </li>
+                        <li style="display:flex;gap:12px;align-items:flex-start;font-size:13px;color:#888;font-weight:300;">
+                            <i data-lucide="check" style="width:14px;height:14px;color:var(--gold);flex-shrink:0;margin-top:2px;"></i>
+                            Priority 24/7 support
+                        </li>
+                    </ul>
+                </div>
+                <button class="btn-gold mt-auto w-full py-4 rounded-full font-bold" style="font-size:14px;">Become Gold</button>
+            </div>
+
+            <!-- Business -->
+            <div class="reveal reveal-delay-2 hover-lift rounded-3xl p-8 flex flex-col"
+                 style="background:var(--black);border:1px solid var(--border);">
+                <div>
+                    <div class="tag mb-2" style="color:#555;">Business</div>
+                    <div style="font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;letter-spacing:-0.03em;margin-top:16px;margin-bottom:6px;color:#fff;">Custom</div>
+                    <div style="font-size:13px;color:#555;font-weight:300;margin-bottom:32px;">For brands &amp; operators</div>
+                    <div class="divider mb-8"></div>
+                    <ul style="list-style:none;display:flex;flex-direction:column;gap:14px;margin-bottom:40px;">
+                        <li style="display:flex;gap:12px;align-items:flex-start;font-size:13px;color:#666;font-weight:300;">
+                            <i data-lucide="check" style="width:14px;height:14px;color:var(--gold);flex-shrink:0;margin-top:2px;"></i>
+                            Bulk wristband issuance
+                        </li>
+                        <li style="display:flex;gap:12px;align-items:flex-start;font-size:13px;color:#666;font-weight:300;">
+                            <i data-lucide="check" style="width:14px;height:14px;color:var(--gold);flex-shrink:0;margin-top:2px;"></i>
+                            White-label branding
+                        </li>
+                        <li style="display:flex;gap:12px;align-items:flex-start;font-size:13px;color:#666;font-weight:300;">
+                            <i data-lucide="check" style="width:14px;height:14px;color:var(--gold);flex-shrink:0;margin-top:2px;"></i>
+                            API access &amp; webhooks
+                        </li>
+                        <li style="display:flex;gap:12px;align-items:flex-start;font-size:13px;color:#666;font-weight:300;">
+                            <i data-lucide="check" style="width:14px;height:14px;color:var(--gold);flex-shrink:0;margin-top:2px;"></i>
+                            Dedicated account manager
+                        </li>
+                        <li style="display:flex;gap:12px;align-items:flex-start;font-size:13px;color:#666;font-weight:300;">
+                            <i data-lucide="check" style="width:14px;height:14px;color:var(--gold);flex-shrink:0;margin-top:2px;"></i>
+                            99.99% SLA guarantee
+                        </li>
+                    </ul>
+                </div>
+                <button class="btn-ghost mt-auto w-full py-4 rounded-full font-semibold" style="font-size:14px;">Contact Sales</button>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     TESTIMONIALS
+═══════════════════════════════════════════════ -->
+<section style="padding:120px 0; background:var(--black); border-top:1px solid var(--border);">
+    <div style="max-width:1280px;" class="mx-auto px-6">
+
+        <div class="reveal text-center mb-20">
+            <p class="section-label mb-4">Reviews</p>
+            <h2 style="font-size:clamp(36px,5vw,60px); font-weight:300; line-height:1.1; letter-spacing:-0.03em;">
+                What people<br><em class="text-gold" style="font-style:italic;">are saying.</em>
+            </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <div class="reveal testimonial-card rounded-3xl p-8">
+                <div style="display:flex;gap:3px;margin-bottom:20px;">
+                    <span style="color:var(--gold);font-size:14px;">★★★★★</span>
+                </div>
+                <p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;line-height:1.6;color:#ddd;margin-bottom:24px;font-style:italic;">
+                    "Paid for VR, bought lunch, grabbed merch — never took out my wallet once. That's the future."
+                </p>
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#2a2a2a,#1a1a1a);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--gold);">A</div>
+                    <div>
+                        <div style="font-size:13px;font-weight:600;color:#fff;">Arjun Mehta</div>
+                        <div style="font-size:11px;color:#555;margin-top:2px;font-weight:300;">Gold Member</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reveal reveal-delay-1 testimonial-card rounded-3xl p-8">
+                <div style="display:flex;gap:3px;margin-bottom:20px;">
+                    <span style="color:var(--gold);font-size:14px;">★★★★★</span>
+                </div>
+                <p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;line-height:1.6;color:#ddd;margin-bottom:24px;font-style:italic;">
+                    "My kids just tap and go. I track everything live on the app with spend limits. Absolute peace of mind."
+                </p>
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#2a2a2a,#1a1a1a);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--gold);">P</div>
+                    <div>
+                        <div style="font-size:13px;font-weight:600;color:#fff;">Priya Nair</div>
+                        <div style="font-size:11px;color:#555;margin-top:2px;font-weight:300;">Gold Member · Family Plan</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reveal reveal-delay-2 testimonial-card rounded-3xl p-8">
+                <div style="display:flex;gap:3px;margin-bottom:20px;">
+                    <span style="color:var(--gold);font-size:14px;">★★★★★</span>
+                </div>
+                <p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;line-height:1.6;color:#ddd;margin-bottom:24px;font-style:italic;">
+                    "We integrated Palayam Pay into our outlet in under a week. Transaction speed is unreal."
+                </p>
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#2a2a2a,#1a1a1a);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--gold);">R</div>
+                    <div>
+                        <div style="font-size:13px;font-weight:600;color:#fff;">Rohan Iyer</div>
+                        <div style="font-size:11px;color:#555;margin-top:2px;font-weight:300;">Business Partner</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     CTA
+═══════════════════════════════════════════════ -->
+<section style="padding:140px 0; background:var(--surface); border-top:1px solid var(--border);">
+    <div style="max-width:800px;" class="mx-auto px-6 text-center">
+
+        <div class="reveal">
+            <div class="mx-auto mb-10 rounded-3xl flex items-center justify-center"
+                 style="width:80px;height:80px;background:linear-gradient(135deg,rgba(201,168,76,0.1),rgba(201,168,76,0.03));border:1px solid var(--border-gold);">
+                <i data-lucide="credit-card" style="width:32px;height:32px;color:var(--gold);"></i>
+            </div>
+
+            <h2 style="font-size:clamp(52px,8vw,100px); font-weight:300; line-height:0.95; letter-spacing:-0.04em; margin-bottom:32px;">
+                Start<br><em class="text-gold" style="font-style:italic;">tapping.</em>
+            </h2>
+
+            <p style="font-size:18px;line-height:1.7;color:#666;font-weight:300;max-width:460px;margin:0 auto 48px;">
+                Join over 1.2 million transactions already processed through Palayam Pay. Your wristband is waiting at the door.
+            </p>
+
+            <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;">
+                <button class="btn-gold px-10 py-5 rounded-full font-bold flex items-center gap-2" style="font-size:16px;">
+                    <i data-lucide="smartphone" style="width:18px;height:18px;"></i>
+                    Add to Wallet
+                </button>
+                <a href="index.html" class="btn-ghost px-10 py-5 rounded-full flex items-center gap-2" style="font-size:16px;text-decoration:none;">
+                    ← Back to Palayam
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════ -->
+<footer style="background:var(--black); border-top:1px solid var(--border); padding:60px 0 32px;">
+    <div style="max-width:1280px;" class="mx-auto px-6">
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-12 mb-16">
+
+            <!-- Brand -->
+            <div class="col-span-2">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+                    <div style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--gold-light),var(--gold));font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:#080808;">P</div>
+                    <span style="font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;letter-spacing:-0.01em;color:#fff;">
+                        Palayam <span class="text-gold-subtle">Pay</span>
+                    </span>
+                </div>
+                <p style="font-size:13px;line-height:1.7;color:#444;font-weight:300;max-width:220px;">
+                    The walletless payment layer powering the Palayam Fun Centre ecosystem.
+                </p>
+                <div style="display:flex;gap:16px;margin-top:20px;">
+                    <i data-lucide="twitter" style="width:16px;height:16px;color:#333;cursor:pointer;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#333'"></i>
+                    <i data-lucide="instagram" style="width:16px;height:16px;color:#333;cursor:pointer;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#333'"></i>
+                    <i data-lucide="linkedin" style="width:16px;height:16px;color:#333;cursor:pointer;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#333'"></i>
+                </div>
+            </div>
+
+            <!-- Product -->
+            <div>
+                <div style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#333;margin-bottom:20px;">Product</div>
+                <ul style="list-style:none;display:flex;flex-direction:column;gap:12px;">
+                    <li><a href="#features" style="font-size:13px;color:#555;text-decoration:none;font-weight:300;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='#555'">Features</a></li>
+                    <li><a href="#pricing" style="font-size:13px;color:#555;text-decoration:none;font-weight:300;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='#555'">Pricing</a></li>
+                    <li><a href="#security" style="font-size:13px;color:#555;text-decoration:none;font-weight:300;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='#555'">Security</a></li>
+                    <li><a href="#" style="font-size:13px;color:#555;text-decoration:none;font-weight:300;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='#555'">API Docs</a></li>
+                </ul>
+            </div>
+
+            <!-- Company -->
+            <div>
+                <div style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#333;margin-bottom:20px;">Palayam</div>
+                <ul style="list-style:none;display:flex;flex-direction:column;gap:12px;">
+                    <li><a href="index.html" style="font-size:13px;color:#555;text-decoration:none;font-weight:300;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='#555'">Home</a></li>
+                    <li><a href="experience.html" style="font-size:13px;color:#555;text-decoration:none;font-weight:300;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='#555'">Experience</a></li>
+                    <li><a href="fibre.html" style="font-size:13px;color:#555;text-decoration:none;font-weight:300;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='#555'">Fibre</a></li>
+                </ul>
+            </div>
+
+            <!-- Legal -->
+            <div>
+                <div style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#333;margin-bottom:20px;">Legal</div>
+                <ul style="list-style:none;display:flex;flex-direction:column;gap:12px;">
+                    <li><a href="#" style="font-size:13px;color:#555;text-decoration:none;font-weight:300;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='#555'">Privacy Policy</a></li>
+                    <li><a href="#" style="font-size:13px;color:#555;text-decoration:none;font-weight:300;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='#555'">Terms of Use</a></li>
+                    <li><a href="#" style="font-size:13px;color:#555;text-decoration:none;font-weight:300;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='#555'">Refund Policy</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="divider mb-8"></div>
+
+        <div style="display:flex;flex-direction:column;gap:8px;align-items:center;text-align:center;">
+            <p style="font-size:12px;color:#2a2a2a;font-weight:300;">&copy; 2024 Palayam Fun Centre. Palayam Pay is a registered payment service. RBI Authorised.</p>
+            <p style="font-size:11px;color:#222;font-weight:300;">PCI DSS Level 1 Certified · AES-256 · 3DS2 · Tokenised Payments</p>
+        </div>
+
+    </div>
+</footer>
+
+
+<!-- ═══════════════════════════════════════════════
+     SCRIPTS
+═══════════════════════════════════════════════ -->
+<script>
+    // ── Icons
+    lucide.createIcons();
+
+    // ── Scroll reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => revealObserver.observe(el));
+
+    // ── Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 60) {
+            navbar.style.background = 'rgba(8,8,8,0.95)';
+            navbar.style.borderBottomColor = 'rgba(201,168,76,0.08)';
+        } else {
+            navbar.style.background = 'rgba(8,8,8,0.8)';
+            navbar.style.borderBottomColor = 'rgba(255,255,255,0.06)';
+        }
+    }, { passive: true });
+
+    // ── Animate progress bars when visible
+    const progObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.querySelectorAll('.prog-fill').forEach(bar => {
+                    bar.style.animationPlayState = 'running';
+                });
+                progObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.prog-bar').forEach(el => {
+        el.querySelector('.prog-fill').style.animationPlayState = 'paused';
+        progObserver.observe(el.closest('.feature-card') || el);
+    });
+
+    // ── Live transaction simulation on card
+    const txLabel = document.querySelector('[data-tx-label]');
+    const transactions = [
+        { zone: 'VR Arena · Zone 01', amount: '₹ 350' },
+        { zone: 'Rooftop Dining',      amount: '₹ 820' },
+        { zone: 'Arcade Galaxy',       amount: '₹ 180' },
+        { zone: 'KidZone · Ride',      amount: '₹ 120' },
+        { zone: 'Palayam Market',      amount: '₹ 640' },
+    ];
+    // (No-op if element not found — graceful degradation)
+</script>
+
+</body>
+</html>
